@@ -115,17 +115,83 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    public Result checkPassWord(String password) {
+        // 检查密码长度是否不少于 6 位
+        if (password.length() < 6) {
+            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_SHORT);
+        }
+    
+        // 检查密码是否包含至少两个数字
+        int digitCount = 0;
+        for (char c : password.toCharArray()) {
+            if (Character.isDigit(c)) {
+                digitCount++;
+            }
+        }
+        if (digitCount < 2) {
+            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_FEW_DIGITS);
+        }
+    
+        // 检查密码是否不能全为大写或小写
+        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {
+            return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);
+        }
+        return Result.ok(null);
+    }
+
+    @Override
     public Result regist(User user) {
+        // 获取用户输入的密码
+        String password = user.getPassword();
+    
+        // 检查密码长度是否不少于 6 位
+        if (password.length() < 6) {
+            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_SHORT);
+        }
+    
+        // 检查密码是否包含至少两个数字
+        int digitCount = 0;
+        for (char c : password.toCharArray()) {
+            if (Character.isDigit(c)) {
+                digitCount++;
+            }
+        }
+        if (digitCount < 2) {
+            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_FEW_DIGITS);
+        }
+    
+        // 检查密码是否不能全为大写或小写
+        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {
+            return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);
+        }
+    
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername, user.getUsername());
+        Long count = userMapper.selectCount(queryWrapper);
+    
+        if (count > 0) {
+            return Result.build(null, ResultCodeEnum.USERNAME_USED);
+        }
+    
+        user.setPassword(MD5Util.encrypt(password));
+        int rows = userMapper.insert(user);
+        System.out.println("rows = " + rows);
+        return Result.ok(null);
+    }
+
+    @Override
+    public Result updateUserInfo(User user) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUsername,user.getUsername());
-        Long count = userMapper.selectCount(queryWrapper);
+        User user1 = userMapper.selectOne(queryWrapper);
 
-        if (count > 0){
-            return Result.build(null,ResultCodeEnum.USERNAME_USED);
+        if (user1 == null){
+            return Result.build(null,ResultCodeEnum.USERNAME_ERROR);
         }
 
+        user.setId(user1.getId());
         user.setPassword(MD5Util.encrypt(user.getPassword()));
-        int rows = userMapper.insert(user);
+        int rows = userMapper.updateById(user);
         System.out.println("rows = " + rows);
         return Result.ok(null);
     }

@@ -14,4 +14,7 @@ public interface UserService {
 
     Result regist(User user);
 
+    Result updateUserInfo(User user);
+
+    Result checkPassWord(String password);
 }

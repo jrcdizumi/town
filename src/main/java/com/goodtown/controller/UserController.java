@@ -45,4 +45,16 @@ public class UserController {
         Result result = userService.regist(user);
         return result;
     }
+
+    @PostMapping("updateUserInfo")
+    public Result updateUserInfo(@RequestBody User user){
+        Result result = userService.updateUserInfo(user);
+        return result;
+    }
+
+    @PostMapping("checkPassWord")
+    public Result checkPassWord(String password){
+        Result result = userService.checkPassWord(password);
+        return result;
+    }
 }
