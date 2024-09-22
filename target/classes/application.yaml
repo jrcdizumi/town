@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/yourdb
+    username: root
+    password: localhost
+
+mybatis-plus:
+  configuration: # setting配置
+    auto-mapping-behavior: full
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.goodtown.pojo
+
+server:
+  address: 10.29.193.157
+  port: 8081
