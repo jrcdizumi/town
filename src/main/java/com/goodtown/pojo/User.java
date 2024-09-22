@@ -47,4 +47,7 @@ public class User implements Serializable{
     private LocalDateTime updateTime;
     @Version
     private Integer version;
+    private Integer isDeleted;
+
+    private static final long serialVersionUID = 1L;
 }
