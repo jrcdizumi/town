@@ -195,4 +195,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         System.out.println("rows = " + rows);
         return Result.ok(null);
     }
+
+    @Override
+    public Result checkLogin(String token) {
+        if (StringUtils.isEmpty(token) || jwtHelper.isExpiration(token)) {
+            return Result.build(null,ResultCodeEnum.NOTLOGIN);
+        }
+        return Result.ok(null);
+    }
 }

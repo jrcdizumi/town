@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.goodtown.pojo.User;
 import com.goodtown.service.UserService;
 import com.goodtown.utils.Result;
@@ -55,6 +56,12 @@ public class UserController {
     @PostMapping("checkPassWord")
     public Result checkPassWord(String password){
         Result result = userService.checkPassWord(password);
+        return result;
+    }
+
+    @GetMapping("checkLogin")
+    public Result checkLogin(@RequestHeader String token){
+        Result result = userService.checkLogin(token);
         return result;
     }
 }

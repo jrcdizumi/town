@@ -17,4 +17,6 @@ public interface UserService {
     Result updateUserInfo(User user);
 
     Result checkPassWord(String password);
+
+    Result checkLogin(String token);
 }
