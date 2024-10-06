@@ -16,5 +16,12 @@ mybatis-plus:
       logic-delete-field: isDeleted  #全局逻辑删除
 
 server:
-  address: 10.29.193.157
-  port: 8081
+  address: 0.0.0.0
+  port: 8080
+  servlet:
+    context-path: /
+
+jwt:
+  token:
+    tokenExpiration: 120 #有效时间,单位分钟
+    tokenSignKey: goodtown123456  #当前程序签名秘钥 自定义
