@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -24,43 +25,51 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private JwtHelper jwtHelper;
     @Autowired
     private  UserMapper userMapper;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 登录业务实现
      * @param user
      * @return result封装
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Result login(User user) {
+        // 从 Redis 中获取用户信息
+        User loginUser = (User) redisTemplate.opsForValue().get("user:" + user.getUsername());
 
-        //根据账号查询
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUsername,user.getUsername());
-        User loginUser = userMapper.selectOne(queryWrapper);
-
-        //账号判断
+        // 如果 Redis 中没有缓存用户信息，则从数据库中查询
         if (loginUser == null) {
-            //账号错误
-            return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
+            // 根据账号查询
+            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getUsername, user.getUsername());
+            loginUser = userMapper.selectOne(queryWrapper);
+
+            // 账号判断
+            if (loginUser == null) {
+                // 账号错误
+                return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
+            }
+
+            // 将用户信息缓存到 Redis 中
+            redisTemplate.opsForValue().set("user:" + user.getUsername(), loginUser);
         }
 
-        //判断密码
+        // 判断密码
         if (!StringUtils.isEmpty(user.getPassword())
-                && loginUser.getPassword().equals(MD5Util.encrypt(user.getPassword())))
-        {
-           //账号密码正确
-            //根据用户唯一标识生成token
+                && loginUser.getPassword().equals(MD5Util.encrypt(user.getPassword()))) {
+            // 账号密码正确
+            // 根据用户唯一标识生成 token
             String token = jwtHelper.createToken(Long.valueOf(loginUser.getId()));
 
-            Map data = new HashMap();
-            data.put("token",token);
+            Map<String, Object> data = new HashMap<>();
+            data.put("token", token);
 
             return Result.ok(data);
         }
 
-        //密码错误
-        return Result.build(null,ResultCodeEnum.PASSWORD_ERROR);
+        // 密码错误
+        return Result.build(null, ResultCodeEnum.PASSWORD_ERROR);
     }
 
     /**
@@ -68,30 +77,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     * @param token
     * @return result封装
     */
-    @SuppressWarnings("unchecked")
     @Override
-    public Result getUserInfo(String token) {
+    public Result getUserInfo(String username) {
+        // 从 Redis 中获取用户信息
+        User user = (User) redisTemplate.opsForValue().get("user:" + username);
 
-        //1.判定是否有效期
-        if (jwtHelper.isExpiration(token)) {
-            //true过期,直接返回未登录
-            return Result.build(null,ResultCodeEnum.NOTLOGIN);
+        // 如果 Redis 中没有缓存用户信息，则从数据库中查询
+        if (user == null) {
+            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getUsername, username);
+            user = userMapper.selectOne(queryWrapper);
+
+            // 如果数据库中也没有用户信息，则返回错误
+            if (user == null) {
+                return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
+            }
+
+            // 将用户信息缓存到 Redis 中
+            redisTemplate.opsForValue().set("user:" + username, user);
         }
 
-        //2.获取token对应的用户
-        int userId = jwtHelper.getUserId(token).intValue();
-
-        //3.查询数据
-        User user = userMapper.selectById(userId);
-
-        if (user != null) {
-            user.setPassword(null);
-            Map data = new HashMap();
-            data.put("loginUser",user);
-            return Result.ok(data);
-        }
-
-        return Result.build(null,ResultCodeEnum.NOTLOGIN);
+        // 返回用户信息
+        return Result.ok(user);
     }
 
     /**
@@ -102,16 +109,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     */
     @Override
     public Result checkUserName(String username) {
+        // 从 Redis 中获取用户信息
+        User user = (User) redisTemplate.opsForValue().get("user:" + username);
 
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUsername,username);
-        User user = userMapper.selectOne(queryWrapper);
+        // 如果 Redis 中没有缓存用户信息，则从数据库中查询
+        if (user == null) {
+            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getUsername, username);
+            user = userMapper.selectOne(queryWrapper);
 
-        if (user != null){
-            return Result.build(null,ResultCodeEnum.USERNAME_USED);
+            // 如果数据库中也没有用户信息，则返回错误
+            if (user == null) {
+                return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
+            }
+
+            // 将用户信息缓存到 Redis 中
+            redisTemplate.opsForValue().set("user:" + username, user);
         }
 
-        return Result.ok(null);
+        // 返回用户信息
+        return Result.ok(user);
     }
 
     @Override
@@ -176,6 +193,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setPassword(MD5Util.encrypt(password));
         int rows = userMapper.insert(user);
         System.out.println("rows = " + rows);
+        
+        // 将用户信息缓存到 Redis 中
+        redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
         return Result.ok(null);
     }
 
