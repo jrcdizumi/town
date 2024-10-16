@@ -17,6 +17,8 @@ import com.goodtown.utils.MD5Util;
 import com.goodtown.utils.Result;
 import com.goodtown.utils.ResultCodeEnum;
 
+import java.time.LocalDateTime;
+
 @SuppressWarnings("rawtypes")
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
@@ -118,17 +120,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             queryWrapper.eq(User::getUsername, username);
             user = userMapper.selectOne(queryWrapper);
 
-            // 如果数据库中也没有用户信息，则返回错误
+            // 如果数据库中也没有用户信息，则说明用户名可以注册
             if (user == null) {
-                return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
+                return Result.ok(null);
             }
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + username, user);
         }
 
-        // 返回用户信息
-        return Result.ok(user);
+        // 如果用户信息存在，则说明用户名已被使用
+        return Result.build(null, ResultCodeEnum.USERNAME_USED);
     }
 
     @Override
@@ -191,6 +193,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
     
         user.setPassword(MD5Util.encrypt(password));
+        user.setRegisterTime(LocalDateTime.now());
+        user.setUpdateTime(LocalDateTime.now());
         int rows = userMapper.insert(user);
         System.out.println("rows = " + rows);
         
@@ -202,15 +206,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public Result updateUserInfo(User user) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUsername,user.getUsername());
+        queryWrapper.eq(User::getUsername, user.getUsername());
         User user1 = userMapper.selectOne(queryWrapper);
 
-        if (user1 == null){
-            return Result.build(null,ResultCodeEnum.USERNAME_ERROR);
+        if (user1 == null) {
+            return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
         }
 
         user.setId(user1.getId());
         user.setPassword(MD5Util.encrypt(user.getPassword()));
+        user.setUpdateTime(LocalDateTime.now());        
+        // 更新 Redis 缓存中的用户信息
+        redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
+
         int rows = userMapper.updateById(user);
         System.out.println("rows = " + rows);
         return Result.ok(null);
