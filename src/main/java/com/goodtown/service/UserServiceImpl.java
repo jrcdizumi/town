@@ -193,8 +193,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
     
         user.setPassword(MD5Util.encrypt(password));
-        user.setRegisterTime(LocalDateTime.now());
-        user.setUpdateTime(LocalDateTime.now());
         int rows = userMapper.insert(user);
         System.out.println("rows = " + rows);
         
@@ -214,13 +212,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         user.setId(user1.getId());
-        user.setPassword(MD5Util.encrypt(user.getPassword()));
-        user.setUpdateTime(LocalDateTime.now());        
-        // 更新 Redis 缓存中的用户信息
-        redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
+        user.setPassword(MD5Util.encrypt(user.getPassword()));     
 
         int rows = userMapper.updateById(user);
-        System.out.println("rows = " + rows);
+        System.out.println("rows = " + rows); 
+               
+        // 更新 Redis 缓存中的用户信息
+        user = userMapper.selectById(user.getId());
+        redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
         return Result.ok(null);
     }
 
