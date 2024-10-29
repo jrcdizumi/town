@@ -2,6 +2,7 @@ package com.goodtown.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +18,6 @@ import com.goodtown.utils.MD5Util;
 import com.goodtown.utils.Result;
 import com.goodtown.utils.ResultCodeEnum;
 
-import java.time.LocalDateTime;
 
 @SuppressWarnings("rawtypes")
 @Service
@@ -55,6 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + user.getUsername(), loginUser);
+            redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
         }
 
         // 判断密码
@@ -97,6 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + username, user);
+            redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
         }
 
         // 返回用户信息
@@ -127,6 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + username, user);
+            redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
         }
 
         // 如果用户信息存在，则说明用户名已被使用
@@ -198,6 +201,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         
         // 将用户信息缓存到 Redis 中
         redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
+        redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
         return Result.ok(null);
     }
 
@@ -220,6 +224,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 更新 Redis 缓存中的用户信息
         user = userMapper.selectById(user.getId());
         redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
+        redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
         return Result.ok(null);
     }
 
