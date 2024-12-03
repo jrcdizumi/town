@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.Version;
 
 /**
  * 
@@ -25,16 +24,14 @@ public class User implements Serializable{
     private String bname;
     private String ctype;
     private String idno;
-    private String phoneNo;
-    private String desc;
+    private String phoneno;
+    @TableField("`desc`")
+    private String description;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime rdate;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime udate;
     private String userlvl;
 
-    @Version
-    private Integer version;
-    private Integer isDeleted;
     private static final long serialVersionUID = 1L;
 }

@@ -4,7 +4,6 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 
@@ -27,8 +26,5 @@ public class TownPromotional implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime pupdatedate;
 
-    @Version
-    private Integer version;
-    private Integer isDeleted;
     private static final long serialVersionUID = 1L;
 }
