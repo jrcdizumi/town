@@ -38,13 +38,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public Result login(User user) {
         // 从 Redis 中获取用户信息
-        User loginUser = (User) redisTemplate.opsForValue().get("user:" + user.getUsername());
+        User loginUser = (User) redisTemplate.opsForValue().get("user:" + user.getBname());
 
         // 如果 Redis 中没有缓存用户信息，则从数据库中查询
         if (loginUser == null) {
             // 根据账号查询
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getUsername, user.getUsername());
+            queryWrapper.eq(User::getBname, user.getBname());
             loginUser = userMapper.selectOne(queryWrapper);
 
             // 账号判断
@@ -54,13 +54,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             }
 
             // 将用户信息缓存到 Redis 中
-            redisTemplate.opsForValue().set("user:" + user.getUsername(), loginUser);
-            redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set("user:" + user.getBname(), loginUser);
+            redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
         }
 
         // 判断密码
-        if (!StringUtils.isEmpty(user.getPassword())
-                && loginUser.getPassword().equals(MD5Util.encrypt(user.getPassword()))) {
+        if (!StringUtils.isEmpty(user.getBpwd())
+                && loginUser.getBpwd().equals(MD5Util.encrypt(user.getBpwd()))) {
             // 账号密码正确
             // 根据用户唯一标识生成 token
             String token = jwtHelper.createToken(Long.valueOf(loginUser.getId()));
@@ -88,7 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 如果 Redis 中没有缓存用户信息，则从数据库中查询
         if (user == null) {
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getUsername, username);
+            queryWrapper.eq(User::getBname, username);
             user = userMapper.selectOne(queryWrapper);
 
             // 如果数据库中也没有用户信息，则返回错误
@@ -98,7 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + username, user);
-            redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
+            redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
         }
 
         // 返回用户信息
@@ -119,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 如果 Redis 中没有缓存用户信息，则从数据库中查询
         if (user == null) {
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getUsername, username);
+            queryWrapper.eq(User::getBname, username);
             user = userMapper.selectOne(queryWrapper);
 
             // 如果数据库中也没有用户信息，则说明用户名可以注册
@@ -129,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + username, user);
-            redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
+            redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
         }
 
         // 如果用户信息存在，则说明用户名已被使用
@@ -164,7 +164,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public Result regist(User user) {
         // 获取用户输入的密码
-        String password = user.getPassword();
+        String password = user.getBpwd();
     
         // 检查密码长度是否不少于 6 位
         if (password.length() < 6) {
@@ -188,27 +188,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
     
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUsername, user.getUsername());
+        queryWrapper.eq(User::getBname, user.getBname());
         Long count = userMapper.selectCount(queryWrapper);
     
         if (count > 0) {
             return Result.build(null, ResultCodeEnum.USERNAME_USED);
         }
     
-        user.setPassword(MD5Util.encrypt(password));
+        user.setBpwd(MD5Util.encrypt(password));
         int rows = userMapper.insert(user);
         System.out.println("rows = " + rows);
         
         // 将用户信息缓存到 Redis 中
-        redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
-        redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("user:" + user.getBname(), user);
+        redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
         return Result.ok(null);
     }
 
     @Override
     public Result updateUserInfo(User user) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUsername, user.getUsername());
+        queryWrapper.eq(User::getBname, user.getBname());
         User user1 = userMapper.selectOne(queryWrapper);
 
         if (user1 == null) {
@@ -216,15 +216,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         user.setId(user1.getId());
-        user.setPassword(MD5Util.encrypt(user.getPassword()));     
+        user.setBpwd(MD5Util.encrypt(user.getBpwd()));     
 
         int rows = userMapper.updateById(user);
         System.out.println("rows = " + rows); 
                
         // 更新 Redis 缓存中的用户信息
         user = userMapper.selectById(user.getId());
-        redisTemplate.opsForValue().set("user:" + user.getUsername(), user);
-        redisTemplate.expire("user:" + user.getUsername(), 360, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("user:" + user.getBname(), user);
+        redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
         return Result.ok(null);
     }
 

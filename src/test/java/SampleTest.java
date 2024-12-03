@@ -21,7 +21,7 @@ public class SampleTest {
     public void testSelect() {
         System.out.println(("----- selectAll method test ------"));
         User user = new User();
-        user.setPassword("131112");
+        user.setBpwd("131112");
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         //更新password
         int count=userMapper.update(user,updateWrapper.eq("username","jrcd"));
