@@ -38,13 +38,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public Result login(User user) {
         // 从 Redis 中获取用户信息
-        User loginUser = (User) redisTemplate.opsForValue().get("user:" + user.getBname());
+        User loginUser = (User) redisTemplate.opsForValue().get("user:" + user.getUname());
 
         // 如果 Redis 中没有缓存用户信息，则从数据库中查询
         if (loginUser == null) {
             // 根据账号查询
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getBname, user.getBname());
+            queryWrapper.eq(User::getUname, user.getUname());
             loginUser = userMapper.selectOne(queryWrapper);
 
             // 账号判断
@@ -54,8 +54,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             }
 
             // 将用户信息缓存到 Redis 中
-            redisTemplate.opsForValue().set("user:" + user.getBname(), loginUser);
-            redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set("user:" + user.getUname(), loginUser);
+            redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         }
 
         // 判断密码
@@ -88,7 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 如果 Redis 中没有缓存用户信息，则从数据库中查询
         if (user == null) {
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getBname, username);
+            queryWrapper.eq(User::getUname, username);
             user = userMapper.selectOne(queryWrapper);
 
             // 如果数据库中也没有用户信息，则返回错误
@@ -98,7 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + username, user);
-            redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
+            redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         }
 
         // 返回用户信息
@@ -119,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 如果 Redis 中没有缓存用户信息，则从数据库中查询
         if (user == null) {
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getBname, username);
+            queryWrapper.eq(User::getUname, username);
             user = userMapper.selectOne(queryWrapper);
 
             // 如果数据库中也没有用户信息，则说明用户名可以注册
@@ -129,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             // 将用户信息缓存到 Redis 中
             redisTemplate.opsForValue().set("user:" + username, user);
-            redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
+            redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         }
 
         // 如果用户信息存在，则说明用户名已被使用
@@ -188,7 +188,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
     
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getBname, user.getBname());
+        queryWrapper.eq(User::getUname, user.getUname());
         Long count = userMapper.selectCount(queryWrapper);
     
         if (count > 0) {
@@ -200,15 +200,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         System.out.println("rows = " + rows);
         
         // 将用户信息缓存到 Redis 中
-        redisTemplate.opsForValue().set("user:" + user.getBname(), user);
-        redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("user:" + user.getUname(), user);
+        redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         return Result.ok(null);
     }
 
     @Override
     public Result updateUserInfo(User user) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getBname, user.getBname());
+        queryWrapper.eq(User::getUname, user.getUname());
         User user1 = userMapper.selectOne(queryWrapper);
 
         if (user1 == null) {
@@ -223,8 +223,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                
         // 更新 Redis 缓存中的用户信息
         user = userMapper.selectById(user.getId());
-        redisTemplate.opsForValue().set("user:" + user.getBname(), user);
-        redisTemplate.expire("user:" + user.getBname(), 360, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("user:" + user.getUname(), user);
+        redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         return Result.ok(null);
     }
 
