@@ -24,15 +24,30 @@ public class TimeAspect {
 
     private void setUpdateTime(Object entity) {
         MetaObject metaObject = SystemMetaObject.forObject(entity);
-        if (metaObject.hasSetter("updateTime")) {
-            metaObject.setValue("updateTime", LocalDateTime.now());
+        if (metaObject.hasSetter("udate")) {
+            metaObject.setValue("udate", LocalDateTime.now());
+        }
+        if (metaObject.hasSetter("pupdatedate")) {
+            metaObject.setValue("pupdatedate", LocalDateTime.now());
+        }
+        if (metaObject.hasSetter("updateDate")) {
+            metaObject.setValue("updateDate", LocalDateTime.now());
         }
     }
 
     private void setRegisterTime(Object entity) {
         MetaObject metaObject = SystemMetaObject.forObject(entity);
-        if (metaObject.hasSetter("registerTime")) {
-            metaObject.setValue("registerTime", LocalDateTime.now());
+        if (metaObject.hasSetter("rdate")) {
+            metaObject.setValue("rdate", LocalDateTime.now());
+        }
+        if (metaObject.hasSetter("createdate")) {
+            metaObject.setValue("createdate", LocalDateTime.now());
+        }
+        if (metaObject.hasSetter("pbegindate")) {
+            metaObject.setValue("pbegindate", LocalDateTime.now());
+        }
+        if (metaObject.hasSetter("supportDate")) {
+            metaObject.setValue("supportDate", LocalDateTime.now());
         }
     }
 }
