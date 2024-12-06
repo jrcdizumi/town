@@ -215,12 +215,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
         }
 
-        user.setId(user1.getId());
-        user.setBpwd(MD5Util.encrypt(user.getBpwd()));     
+        // 只能修改密码、手机号、简介
+        user1.setDescription(user.getDescription());
+        user1.setBpwd(MD5Util.encrypt(user.getBpwd()));  
+        user1.setPhoneno(user.getPhoneno());   
 
-        int rows = userMapper.updateById(user);
-        System.out.println("rows = " + rows); 
-               
+        int rows = userMapper.updateById(user1);
+        System.out.println("rows = " + rows);
+        
+        
         // 更新 Redis 缓存中的用户信息
         user = userMapper.selectById(user.getId());
         redisTemplate.opsForValue().set("user:" + user.getUname(), user);
