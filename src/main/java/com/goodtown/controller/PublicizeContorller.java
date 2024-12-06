@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/publicize")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class PublicizeContorller {
     @Autowired
     private UploadFile uploadFile;
