@@ -81,7 +81,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     * @return result封装
     */
     @Override
-    public Result getUserInfo(String username) {
+    public Result getUserInfo(String token) {
+        // 解析 token 获取用户信息
+        Long userId = jwtHelper.getUserId(token);
+        if (userId == null) {
+            return Result.build(null, ResultCodeEnum.NOTLOGIN);
+        }
+
+        // 根据用户id查询用户信息
+        User user1 = userMapper.selectById(userId);
+        if (user1 == null) {
+            return Result.build(null, ResultCodeEnum.NOTLOGIN);
+        }
+
+        String username = user1.getUname();
         // 从 Redis 中获取用户信息
         User user = (User) redisTemplate.opsForValue().get("user:" + username);
 
@@ -100,7 +113,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             redisTemplate.opsForValue().set("user:" + username, user);
             redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         }
-
+        user.setBpwd(null);
         // 返回用户信息
         return Result.ok(user);
     }
@@ -121,9 +134,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(User::getUname, username);
             user = userMapper.selectOne(queryWrapper);
-
-            // 如果数据库中也没有用户信息，则说明用户名可以注册
-            if (user == null) {
+            
+            if(user == null){
                 return Result.ok(null);
             }
 
@@ -186,7 +198,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {
             return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);
         }
-    
+        
+        User user1 = (User) redisTemplate.opsForValue().get("user:" + user.getUname());
+        if(user1 != null){
+            return Result.build(null, ResultCodeEnum.USERNAME_USED);
+        }
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getUname, user.getUname());
         Long count = userMapper.selectCount(queryWrapper);
@@ -236,6 +252,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (StringUtils.isEmpty(token) || jwtHelper.isExpiration(token)) {
             return Result.build(null,ResultCodeEnum.NOTLOGIN);
         }
-        return Result.ok(null);
+        // 解析 token 获取用户信息
+        Long userId = jwtHelper.getUserId(token);
+        if (userId == null) {
+            return Result.build(null, ResultCodeEnum.NOTLOGIN);
+        }
+        Map<String, Object> data = new HashMap<>();
+        // 根据用户id查询用户信息
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            return Result.build(null, ResultCodeEnum.NOTLOGIN);
+        }
+        data.put("uname", user.getUname());
+        return Result.ok(data);
     }
 }
