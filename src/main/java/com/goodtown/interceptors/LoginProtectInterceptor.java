@@ -18,6 +18,9 @@ public class LoginProtectInterceptor implements HandlerInterceptor {
 
     @Autowired
     private JwtHelper jwtHelper;
+
+    // 添加静态的ThreadLocal变量
+    private static ThreadLocal<Long> userThreadLocal = new ThreadLocal<>();
     
     @SuppressWarnings("rawtypes")
     @Override
@@ -32,8 +35,22 @@ public class LoginProtectInterceptor implements HandlerInterceptor {
             //拦截
             return false;
         }else{
+            // 从token中获取用户信息，存储到ThreadLocal
+            Long userId = jwtHelper.getUserId(token);
+            userThreadLocal.set(userId);
             //放行
             return true;
         }
+    }
+
+    // 请求处理完成后清理ThreadLocal，防止内存泄漏
+    @Override
+    public void afterCompletion(@SuppressWarnings("null") HttpServletRequest request, @SuppressWarnings("null") HttpServletResponse response, @SuppressWarnings("null") Object handler, @SuppressWarnings("null") Exception ex) throws Exception {
+        userThreadLocal.remove();
+    }
+
+    // 提供获取用户信息的方法
+    public static Long getUserId() {
+        return userThreadLocal.get();
     }
 }

@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("checkUserName")
-    public Result checkUserName(String username){
+    public Result checkUserName(@RequestBody String username){
         Result result = userService.checkUserName(username);
         return result;
     }
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("checkPassWord")
-    public Result checkPassWord(String password){
+    public Result checkPassWord(@RequestBody String password){
         Result result = userService.checkPassWord(password);
         return result;
     }
