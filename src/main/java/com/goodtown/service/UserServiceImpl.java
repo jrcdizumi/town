@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.goodtown.interceptors.LoginProtectInterceptor;
 import com.goodtown.mapper.UserMapper;
 import com.goodtown.pojo.User;
 import com.goodtown.utils.JwtHelper;
@@ -83,7 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public Result getUserInfo(String token) {
         // 解析 token 获取用户信息
-        Long userId = jwtHelper.getUserId(token);
+        Long userId = LoginProtectInterceptor.getUserId();
         if (userId == null) {
             return Result.build(null, ResultCodeEnum.NOTLOGIN);
         }
@@ -164,10 +165,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return Result.build(null, ResultCodeEnum.PASSWORD_TOO_FEW_DIGITS);
         }
     
-        // 检查密码是否不能全为大写或小写
-        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {
+        // 检查密码是否不能全为大写或小写(但可以没有字母)
+        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase()) || !password.matches(".*[a-zA-Z]+.*")) {
             return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);
         }
+
+
         return Result.ok(null);
     }
 
