@@ -134,7 +134,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(User::getUname, username);
             user = userMapper.selectOne(queryWrapper);
-            
             if(user == null){
                 return Result.ok(null);
             }
@@ -154,7 +153,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (password.length() < 6) {
             return Result.build(null, ResultCodeEnum.PASSWORD_TOO_SHORT);
         }
-    
         // 检查密码是否包含至少两个数字
         int digitCount = 0;
         for (char c : password.toCharArray()) {
