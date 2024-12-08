@@ -1,5 +1,6 @@
 package com.goodtown.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,11 +13,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
  */
 @Data
 public class TownPromotional implements Serializable {
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer pid;
     private String ptitle;
     private Integer ptypeId;
-    private Integer puserid;
+    private Long puserid;
+    //指定列名就是townID
+    @TableField(value = "townID")
     private Integer townID;
     private String pdesc;
     private String pfileList;
@@ -25,6 +28,8 @@ public class TownPromotional implements Serializable {
     private Integer pstate;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime pupdatedate;
+
+    private String videourl;
 
     private static final long serialVersionUID = 1L;
 }

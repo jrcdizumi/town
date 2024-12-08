@@ -1,0 +1,102 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <parent>\r\n        <groupId>org.springframework.boot</groupId>\r\n        <artifactId>spring-boot-starter-parent</artifactId>\r\n        <version>3.3.3</version>\r\n    </parent>\r\n\r\n    <groupId>com.goodtown</groupId>\r\n    <artifactId>town</artifactId>\r\n    <version>1.0-SNAPSHOT</version>\r\n\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.projectlombok</groupId>\r\n            <artifactId>lombok</artifactId>\r\n            <version>1.18.34</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-data-redis</artifactId>\r\n        </dependency>\r\n<!--        <dependency>-->\r\n<!--            <groupId>org.mybatis.spring.boot</groupId>-->\r\n<!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->\r\n<!--            <version>3.0.3</version>-->\r\n<!--        </dependency>-->\r\n        <dependency>\r\n            <groupId>mysql</groupId>\r\n            <artifactId>mysql-connector-java</artifactId>\r\n            <version>8.0.33</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-aop</artifactId>\r\n            <version>3.3.3</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.baomidou</groupId>\r\n            <artifactId>mybatis-plus-generator</artifactId>\r\n            <version>3.5.7</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.qcloud</groupId>\r\n            <artifactId>cos_api</artifactId>\r\n            <version>5.6.233</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.apache.velocity</groupId>\r\n            <artifactId>velocity-engine-core</artifactId>\r\n            <version>2.3</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.baomidou</groupId>\r\n            <artifactId>mybatis-plus-boot-starter</artifactId>\r\n            <version>3.5.7</version>\r\n            <exclusions>\r\n                <exclusion>\r\n                    <groupId>org.mybatis</groupId>\r\n                    <artifactId>mybatis-spring</artifactId>\r\n                </exclusion>\r\n            </exclusions>\r\n        </dependency>\r\n\r\n\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-test</artifactId>\r\n            <version>3.3.3</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.mybatis</groupId>\r\n            <artifactId>mybatis-spring</artifactId>\r\n            <version>3.0.4</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>com.auth0</groupId>\r\n            <artifactId>java-jwt</artifactId>\r\n            <version>3.14.0</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-thymeleaf</artifactId>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>io.jsonwebtoken</groupId>\r\n            <artifactId>jjwt</artifactId>\r\n            <version>0.9.1</version>\r\n        </dependency>\r\n\r\n        <dependency>\r\n            <groupId>javax.xml.bind</groupId>\r\n            <artifactId>jaxb-api</artifactId>\r\n            <version>2.3.0</version>\r\n        </dependency>\r\n    </dependencies>\r\n\r\n    <repositories>\r\n        <repository>\r\n            <id>tencent</id>\r\n            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>\r\n        </repository>\r\n    </repositories>\r\n    <pluginRepositories>\r\n        <pluginRepository>\r\n            <id>tencent</id>\r\n            <url>https://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>\r\n        </pluginRepository>\r\n    </pluginRepositories>\r\n\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 57c2e388f2fd2bb33d4a0006dfcd6e9090fd5090)
++++ b/pom.xml	(date 1731586921742)
+@@ -106,6 +106,7 @@
+             <artifactId>jaxb-api</artifactId>
+             <version>2.3.0</version>
+         </dependency>
++
+     </dependencies>
+ 
+     <repositories>
+Index: src/test/java/SampleTest.java
+===================================================================
+diff --git a/src/test/java/SampleTest.java b/src/test/java/SampleTest.java
+deleted file mode 100644
+--- a/src/test/java/SampleTest.java	(revision 57c2e388f2fd2bb33d4a0006dfcd6e9090fd5090)
++++ /dev/null	(revision 57c2e388f2fd2bb33d4a0006dfcd6e9090fd5090)
+@@ -1,38 +0,0 @@
+-import org.junit.jupiter.api.Test;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.boot.test.context.SpringBootTest;
+-
+-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+-import com.goodtown.MainApplication;
+-import com.goodtown.mapper.UserMapper;
+-import com.goodtown.pojo.User;
+-import com.goodtown.utils.MD5Util;
+-
+-import java.util.List;
+-
+-@SpringBootTest(classes = MainApplication.class ) //springboot下测试环境注解
+-public class SampleTest {
+-
+-    @Autowired
+-    private UserMapper userMapper;
+-
+-    @Test
+-    public void testSelect() {
+-        System.out.println(("----- selectAll method test ------"));
+-        User user = new User();
+-        user.setPassword("131112");
+-        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+-        //更新password
+-        int count=userMapper.update(user,updateWrapper.eq("username","jrcd"));
+-        if(count>0){
+-            System.out.println("更新成功");
+-        }else{
+-            userMapper.insert(user);
+-        }      
+-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+-        List<User> userList = userMapper.selectList(queryWrapper.like("username", "cd"));
+-        userList.forEach(System.out::println);
+-        System.out.println(MD5Util.encrypt("admin"));
+-    }
+-}
+Index: src/main/java/com/goodtown/mapper/UserMapper.java.url
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/goodtown/mapper/UserMapper.java.url b/src/main/java/com/goodtown/mapper/UserMapper.java.url
+new file mode 100644
+--- /dev/null	(date 1731586683076)
++++ b/src/main/java/com/goodtown/mapper/UserMapper.java.url	(date 1731586683076)
+@@ -0,0 +1,2 @@
++[InternetShortcut]
++URL=https://github.com/jrcdizumi/town/blob/main/src/main/java/com/goodtown/mapper/UserMapper.java
+Index: target/classes/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  datasource:\r\n    url: jdbc:mysql://127.0.0.1:3306/goodtown\r\n    username: town\r\n    password: goodtown\r\n  data:\r\n    redis:\r\n      host: localhost\r\n      port: 6379\r\n      password: 123456\r\n      timeout: 2000s\r\n\r\nmybatis-plus:\r\n  configuration: # setting配置\r\n    auto-mapping-behavior: full\r\n    map-underscore-to-camel-case: true\r\n    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl\r\n  mapper-locations: classpath:mapper/*.xml\r\n  type-aliases-package: com.goodtown.pojo\r\n  global-config:\r\n    db-config:\r\n      logic-delete-field: isDeleted  #全局逻辑删除\r\n\r\nserver:\r\n  address: 0.0.0.0\r\n  port: 8080\r\n  servlet:\r\n    context-path: /\r\n\r\njwt:\r\n  token:\r\n    tokenExpiration: 120 #有效时间,单位分钟\r\n    tokenSignKey: goodtown123456  #当前程序签名秘钥 自定义
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/target/classes/application.yaml b/target/classes/application.yaml
+--- a/target/classes/application.yaml	(revision 57c2e388f2fd2bb33d4a0006dfcd6e9090fd5090)
++++ b/target/classes/application.yaml	(date 1731591563142)
+@@ -30,4 +30,13 @@
+ jwt:
+   token:
+     tokenExpiration: 120 #有效时间,单位分钟
+-    tokenSignKey: goodtown123456  #当前程序签名秘钥 自定义
+\ No newline at end of file
++    tokenSignKey: goodtown123456  #当前程序签名秘钥 自定义
++
++tengxun:
++  cos:
++    SecretId: AKIDWyLqVCnFcu7BNWYp0P6qjqvpwNrSl8fQ
++    SecretKey: WvGYyJeyVyRsT3py8Gf0QhwNclx7IMUf
++    region: ap-beijing
++    bucketName: sky-take-out-1317682162
++    url: https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/
++    path: goodtown/
+\ No newline at end of file

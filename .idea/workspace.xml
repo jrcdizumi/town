@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="70e001d3-e4be-4ae1-a483-fd6d5805a26e" name="更改" comment="好宣传Controller">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/mapper/TownInfoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/TownInfoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/TownInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/config/WebMvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/pojo/TownInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/pojo/TownInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/pojo/TownPromotional.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/pojo/TownPromotional.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PromotionalTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PromotionalTypeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/config/WebMvcConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/config/WebMvcConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/controller/PublicizeContorller.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/controller/PublicizeContorller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/interceptors/LoginProtectInterceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/interceptors/LoginProtectInterceptor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/pojo/TownInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/pojo/TownInfo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/pojo/TownPromotional.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/pojo/TownPromotional.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/pojo/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/pojo/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/service/PublicizeServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/service/PublicizeServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/service/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/service/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/utils/ResultCodeEnum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/utils/ResultCodeEnum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/MyTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/MyTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/SampleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/SampleTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="f37d8392-1075-42dc-90ea-6012c24f4f32" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/jrcdizumi/town&quot;,
+    &quot;accountId&quot;: &quot;f37d8392-1075-42dc-90ea-6012c24f4f32&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/com/baomidou/mybatis-plus-extension/3.5.7/mybatis-plus-extension-3.5.7.jar!/com/baomidou/mybatisplus/extension/service/impl/ServiceImpl.class" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/AppData/Local/Temp/tmp_3_PublicizeContorller.class" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Temp/tmp_4_PublicizeContorller.class" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/AppData/Local/Temp/tmp_6_PublicizeContorller.class" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2oq1s2ux1z7fn9LwxpwiI9nfa7V" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.MyTest.executor": "Run",
+    "JUnit.MyTest.testUploadFile (1).executor": "Run",
+    "JUnit.MyTest.testUploadFile.executor": "Run",
+    "JUnit.SampleTest.testRegist.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/workspace4idea/sky-take-out",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true",
+    "应用程序.MainApplication.executor": "Debug"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace4idea\town\src\test" />
+      <recent name="D:\workspace4idea\town\src\main\resources" />
+      <recent name="D:\workspace4idea\town\src\main\java\com\goodtown\pojo" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace4idea\town\src\test" />
+      <recent name="D:\workspace4idea\town\src\main\java\com\goodtown\mapper" />
+    </key>
+  </component>
+  <component name="RunManager" selected="应用程序.MainApplication">
+    <configuration name="MainApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../Java/jdk-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.goodtown.MainApplication" />
+      <module name="town" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.goodtown.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../Java/jdk-17" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest.testUploadFile (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="town" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="testUploadFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest.testUploadFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../../Java/jdk-17" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="testUploadFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SampleTest.testRegist" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="town" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SampleTest" />
+      <option name="METHOD_NAME" value="testRegist" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.SampleTest.testRegist" />
+      <item itemvalue="JUnit.MyTest.testUploadFile (1)" />
+      <item itemvalue="JUnit.MyTest" />
+      <item itemvalue="JUnit.MyTest.testUploadFile" />
+      <item itemvalue="应用程序.MainApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="应用程序.MainApplication" />
+        <item itemvalue="JUnit.SampleTest.testRegist" />
+        <item itemvalue="JUnit.MyTest.testUploadFile (1)" />
+        <item itemvalue="JUnit.MyTest" />
+        <item itemvalue="JUnit.MyTest.testUploadFile" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\lgz\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="70e001d3-e4be-4ae1-a483-fd6d5805a26e" name="更改" comment="" />
+      <created>1731582495157</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1731582495157</updated>
+      <workItem from="1731582496758" duration="6375000" />
+      <workItem from="1731588901883" duration="1226000" />
+      <workItem from="1731591318532" duration="49000" />
+      <workItem from="1731591378112" duration="357000" />
+      <workItem from="1732004166509" duration="16000" />
+      <workItem from="1733493800553" duration="8971000" />
+      <workItem from="1733570178668" duration="7196000" />
+      <workItem from="1733632736740" duration="12440000" />
+    </task>
+    <task id="LOCAL-00001" summary="对象存储服务">
+      <option name="closed" value="true" />
+      <created>1731588431203</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731588431203</updated>
+    </task>
+    <task id="LOCAL-00002" summary="好宣传Controller">
+      <option name="closed" value="true" />
+      <created>1733577671832</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733577671832</updated>
+    </task>
+    <task id="LOCAL-00003" summary="好宣传Controller">
+      <option name="closed" value="true" />
+      <created>1733577761262</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733577761262</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="对象存储服务" />
+    <MESSAGE value="好宣传Controller" />
+    <option name="LAST_COMMIT_MESSAGE" value="好宣传Controller" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/MyTest.java</url>
+          <line>30</line>
+          <properties class="MyTest" method="testUploadFile">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/MyTest.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

@@ -6,4 +6,6 @@ import com.goodtown.utils.Result;
 
 public interface PublicizeService {
     Result submit(TownPromotional data);
+
+    String getAll();
 }

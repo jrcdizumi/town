@@ -45,4 +45,14 @@ public class PublicizeContorller {
     public Result getTypeList(){
         return Result.ok(promotionalTypeService.getTypeList());
     }
+
+    @GetMapping("getTownList")
+    public Result getTownList(){
+        return Result.ok(promotionalTypeService.getTownList());
+    }
+
+    @GetMapping("getPromotionalList")
+    public Result getPromotionalList(){
+        return Result.ok(publicizeService.getAll());
+    }
 }

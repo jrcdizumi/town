@@ -1,0 +1,254 @@
+Index: src/main/java/com/goodtown/config/WebMvcConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.goodtown.config;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.web.servlet.config.annotation.InterceptorRegistry;\r\nimport org.springframework.web.servlet.config.annotation.WebMvcConfigurer;\r\n\r\nimport com.goodtown.interceptors.LoginProtectInterceptor;\r\n\r\n@Configuration\r\npublic class WebMvcConfig implements WebMvcConfigurer {\r\n\r\n    @Autowired\r\n    private LoginProtectInterceptor loginProtectInterceptor;\r\n\r\n    @Override\r\n    public void addInterceptors(@SuppressWarnings(\"null\") InterceptorRegistry registry) {\r\n        registry.addInterceptor(loginProtectInterceptor).addPathPatterns(\"/portal/**\");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/goodtown/config/WebMvcConfig.java b/src/main/java/com/goodtown/config/WebMvcConfig.java
+--- a/src/main/java/com/goodtown/config/WebMvcConfig.java	(revision d90c5d4448fa36910e22fd20ae6ed1ccd2df3de4)
++++ b/src/main/java/com/goodtown/config/WebMvcConfig.java	(date 1733577797220)
+@@ -15,6 +15,6 @@
+ 
+     @Override
+     public void addInterceptors(@SuppressWarnings("null") InterceptorRegistry registry) {
+-        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/portal/**");
++        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/user/updateUserInfo");
+     }
+ }
+Index: src/main/java/com/goodtown/service/UserServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.goodtown.service;\r\n\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\nimport java.util.concurrent.TimeUnit;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.data.redis.core.RedisTemplate;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\r\nimport com.baomidou.mybatisplus.core.toolkit.StringUtils;\r\nimport com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;\r\nimport com.goodtown.mapper.UserMapper;\r\nimport com.goodtown.pojo.User;\r\nimport com.goodtown.utils.JwtHelper;\r\nimport com.goodtown.utils.MD5Util;\r\nimport com.goodtown.utils.Result;\r\nimport com.goodtown.utils.ResultCodeEnum;\r\n\r\n\r\n@SuppressWarnings(\"rawtypes\")\r\n@Service\r\npublic class UserServiceImpl extends ServiceImpl<UserMapper, User>\r\n    implements UserService{\r\n    @Autowired\r\n    private JwtHelper jwtHelper;\r\n    @Autowired\r\n    private  UserMapper userMapper;\r\n    @Autowired\r\n    private RedisTemplate<String, Object> redisTemplate;\r\n\r\n    /**\r\n     * 登录业务实现\r\n     * @param user\r\n     * @return result封装\r\n     */\r\n    @Override\r\n    public Result login(User user) {\r\n        // 从 Redis 中获取用户信息\r\n        User loginUser = (User) redisTemplate.opsForValue().get(\"user:\" + user.getUname());\r\n\r\n        // 如果 Redis 中没有缓存用户信息，则从数据库中查询\r\n        if (loginUser == null) {\r\n            // 根据账号查询\r\n            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();\r\n            queryWrapper.eq(User::getUname, user.getUname());\r\n            loginUser = userMapper.selectOne(queryWrapper);\r\n\r\n            // 账号判断\r\n            if (loginUser == null) {\r\n                // 账号错误\r\n                return Result.build(null, ResultCodeEnum.USERNAME_ERROR);\r\n            }\r\n\r\n            // 将用户信息缓存到 Redis 中\r\n            redisTemplate.opsForValue().set(\"user:\" + user.getUname(), loginUser);\r\n            redisTemplate.expire(\"user:\" + user.getUname(), 360, TimeUnit.SECONDS);\r\n        }\r\n\r\n        // 判断密码\r\n        if (!StringUtils.isEmpty(user.getBpwd())\r\n                && loginUser.getBpwd().equals(MD5Util.encrypt(user.getBpwd()))) {\r\n            // 账号密码正确\r\n            // 根据用户唯一标识生成 token\r\n            String token = jwtHelper.createToken(Long.valueOf(loginUser.getId()));\r\n\r\n            Map<String, Object> data = new HashMap<>();\r\n            data.put(\"token\", token);\r\n\r\n            return Result.ok(data);\r\n        }\r\n\r\n        // 密码错误\r\n        return Result.build(null, ResultCodeEnum.PASSWORD_ERROR);\r\n    }\r\n\r\n    /**\r\n    * 查询用户数据\r\n    * @param token\r\n    * @return result封装\r\n    */\r\n    @Override\r\n    public Result getUserInfo(String username) {\r\n        // 从 Redis 中获取用户信息\r\n        User user = (User) redisTemplate.opsForValue().get(\"user:\" + username);\r\n\r\n        // 如果 Redis 中没有缓存用户信息，则从数据库中查询\r\n        if (user == null) {\r\n            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();\r\n            queryWrapper.eq(User::getUname, username);\r\n            user = userMapper.selectOne(queryWrapper);\r\n\r\n            // 如果数据库中也没有用户信息，则返回错误\r\n            if (user == null) {\r\n                return Result.build(null, ResultCodeEnum.USERNAME_ERROR);\r\n            }\r\n\r\n            // 将用户信息缓存到 Redis 中\r\n            redisTemplate.opsForValue().set(\"user:\" + username, user);\r\n            redisTemplate.expire(\"user:\" + user.getUname(), 360, TimeUnit.SECONDS);\r\n        }\r\n\r\n        // 返回用户信息\r\n        return Result.ok(user);\r\n    }\r\n\r\n    /**\r\n    * 检查账号是否可以注册\r\n    *\r\n    * @param username 账号信息\r\n    * @return\r\n    */\r\n    @Override\r\n    public Result checkUserName(String username) {\r\n        // 从 Redis 中获取用户信息\r\n        User user = (User) redisTemplate.opsForValue().get(\"user:\" + username);\r\n\r\n        // 如果 Redis 中没有缓存用户信息，则从数据库中查询\r\n        if (user == null) {\r\n            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();\r\n            queryWrapper.eq(User::getUname, username);\r\n            user = userMapper.selectOne(queryWrapper);\r\n\r\n            // 如果数据库中也没有用户信息，则说明用户名可以注册\r\n            if (user == null) {\r\n                return Result.ok(null);\r\n            }\r\n\r\n            // 将用户信息缓存到 Redis 中\r\n            redisTemplate.opsForValue().set(\"user:\" + username, user);\r\n            redisTemplate.expire(\"user:\" + user.getUname(), 360, TimeUnit.SECONDS);\r\n        }\r\n\r\n        // 如果用户信息存在，则说明用户名已被使用\r\n        return Result.build(null, ResultCodeEnum.USERNAME_USED);\r\n    }\r\n\r\n    @Override\r\n    public Result checkPassWord(String password) {\r\n        // 检查密码长度是否不少于 6 位\r\n        if (password.length() < 6) {\r\n            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_SHORT);\r\n        }\r\n    \r\n        // 检查密码是否包含至少两个数字\r\n        int digitCount = 0;\r\n        for (char c : password.toCharArray()) {\r\n            if (Character.isDigit(c)) {\r\n                digitCount++;\r\n            }\r\n        }\r\n        if (digitCount < 2) {\r\n            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_FEW_DIGITS);\r\n        }\r\n    \r\n        // 检查密码是否不能全为大写或小写\r\n        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {\r\n            return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);\r\n        }\r\n        return Result.ok(null);\r\n    }\r\n\r\n    @Override\r\n    public Result regist(User user) {\r\n        // 获取用户输入的密码\r\n        String password = user.getBpwd();\r\n    \r\n        // 检查密码长度是否不少于 6 位\r\n        if (password.length() < 6) {\r\n            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_SHORT);\r\n        }\r\n    \r\n        // 检查密码是否包含至少两个数字\r\n        int digitCount = 0;\r\n        for (char c : password.toCharArray()) {\r\n            if (Character.isDigit(c)) {\r\n                digitCount++;\r\n            }\r\n        }\r\n        if (digitCount < 2) {\r\n            return Result.build(null, ResultCodeEnum.PASSWORD_TOO_FEW_DIGITS);\r\n        }\r\n    \r\n        // 检查密码是否不能全为大写或小写\r\n        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {\r\n            return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);\r\n        }\r\n    \r\n        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();\r\n        queryWrapper.eq(User::getUname, user.getUname());\r\n        Long count = userMapper.selectCount(queryWrapper);\r\n    \r\n        if (count > 0) {\r\n            return Result.build(null, ResultCodeEnum.USERNAME_USED);\r\n        }\r\n    \r\n        user.setBpwd(MD5Util.encrypt(password));\r\n        int rows = userMapper.insert(user);\r\n        System.out.println(\"rows = \" + rows);\r\n        \r\n        // 将用户信息缓存到 Redis 中\r\n        redisTemplate.opsForValue().set(\"user:\" + user.getUname(), user);\r\n        redisTemplate.expire(\"user:\" + user.getUname(), 360, TimeUnit.SECONDS);\r\n        return Result.ok(null);\r\n    }\r\n\r\n    @Override\r\n    public Result updateUserInfo(User user) {\r\n        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();\r\n        queryWrapper.eq(User::getUname, user.getUname());\r\n        User user1 = userMapper.selectOne(queryWrapper);\r\n\r\n        if (user1 == null) {\r\n            return Result.build(null, ResultCodeEnum.USERNAME_ERROR);\r\n        }\r\n\r\n        // 只能修改密码、手机号、简介\r\n        user1.setDescription(user.getDescription());\r\n        user1.setBpwd(MD5Util.encrypt(user.getBpwd()));  \r\n        user1.setPhoneno(user.getPhoneno());   \r\n\r\n        int rows = userMapper.updateById(user1);\r\n        System.out.println(\"rows = \" + rows);\r\n        \r\n        \r\n        // 更新 Redis 缓存中的用户信息\r\n        user = userMapper.selectById(user.getId());\r\n        redisTemplate.opsForValue().set(\"user:\" + user.getUname(), user);\r\n        redisTemplate.expire(\"user:\" + user.getUname(), 360, TimeUnit.SECONDS);\r\n        return Result.ok(null);\r\n    }\r\n\r\n    @Override\r\n    public Result checkLogin(String token) {\r\n        if (StringUtils.isEmpty(token) || jwtHelper.isExpiration(token)) {\r\n            return Result.build(null,ResultCodeEnum.NOTLOGIN);\r\n        }\r\n        return Result.ok(null);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/goodtown/service/UserServiceImpl.java b/src/main/java/com/goodtown/service/UserServiceImpl.java
+--- a/src/main/java/com/goodtown/service/UserServiceImpl.java	(revision d90c5d4448fa36910e22fd20ae6ed1ccd2df3de4)
++++ b/src/main/java/com/goodtown/service/UserServiceImpl.java	(date 1733577797248)
+@@ -11,6 +11,7 @@
+ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
++import com.goodtown.interceptors.LoginProtectInterceptor;
+ import com.goodtown.mapper.UserMapper;
+ import com.goodtown.pojo.User;
+ import com.goodtown.utils.JwtHelper;
+@@ -81,7 +82,20 @@
+     * @return result封装
+     */
+     @Override
+-    public Result getUserInfo(String username) {
++    public Result getUserInfo(String token) {
++        // 解析 token 获取用户信息
++        Long userId = LoginProtectInterceptor.getUserId();
++        if (userId == null) {
++            return Result.build(null, ResultCodeEnum.NOTLOGIN);
++        }
++
++        // 根据用户id查询用户信息
++        User user1 = userMapper.selectById(userId);
++        if (user1 == null) {
++            return Result.build(null, ResultCodeEnum.NOTLOGIN);
++        }
++
++        String username = user1.getUname();
+         // 从 Redis 中获取用户信息
+         User user = (User) redisTemplate.opsForValue().get("user:" + username);
+ 
+@@ -100,7 +114,7 @@
+             redisTemplate.opsForValue().set("user:" + username, user);
+             redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
+         }
+-
++        user.setBpwd(null);
+         // 返回用户信息
+         return Result.ok(user);
+     }
+@@ -121,9 +135,7 @@
+             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+             queryWrapper.eq(User::getUname, username);
+             user = userMapper.selectOne(queryWrapper);
+-
+-            // 如果数据库中也没有用户信息，则说明用户名可以注册
+-            if (user == null) {
++            if(user == null){
+                 return Result.ok(null);
+             }
+ 
+@@ -142,7 +154,6 @@
+         if (password.length() < 6) {
+             return Result.build(null, ResultCodeEnum.PASSWORD_TOO_SHORT);
+         }
+-    
+         // 检查密码是否包含至少两个数字
+         int digitCount = 0;
+         for (char c : password.toCharArray()) {
+@@ -154,10 +165,12 @@
+             return Result.build(null, ResultCodeEnum.PASSWORD_TOO_FEW_DIGITS);
+         }
+     
+-        // 检查密码是否不能全为大写或小写
+-        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {
++        // 检查密码是否不能全为大写或小写(但可以没有字母)
++        if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase()) || !password.matches(".*[a-zA-Z]+.*")) {
+             return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);
+         }
++
++
+         return Result.ok(null);
+     }
+ 
+@@ -186,7 +199,11 @@
+         if (password.equals(password.toLowerCase()) || password.equals(password.toUpperCase())) {
+             return Result.build(null, ResultCodeEnum.PASSWORD_CASE_REQUIREMENT);
+         }
+-    
++        
++        User user1 = (User) redisTemplate.opsForValue().get("user:" + user.getUname());
++        if(user1 != null){
++            return Result.build(null, ResultCodeEnum.USERNAME_USED);
++        }
+         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+         queryWrapper.eq(User::getUname, user.getUname());
+         Long count = userMapper.selectCount(queryWrapper);
+@@ -236,6 +253,18 @@
+         if (StringUtils.isEmpty(token) || jwtHelper.isExpiration(token)) {
+             return Result.build(null,ResultCodeEnum.NOTLOGIN);
+         }
+-        return Result.ok(null);
++        // 解析 token 获取用户信息
++        Long userId = jwtHelper.getUserId(token);
++        if (userId == null) {
++            return Result.build(null, ResultCodeEnum.NOTLOGIN);
++        }
++        Map<String, Object> data = new HashMap<>();
++        // 根据用户id查询用户信息
++        User user = userMapper.selectById(userId);
++        if (user == null) {
++            return Result.build(null, ResultCodeEnum.NOTLOGIN);
++        }
++        data.put("uname", user.getUname());
++        return Result.ok(data);
+     }
+ }
+Index: src/main/java/com/goodtown/interceptors/LoginProtectInterceptor.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.goodtown.interceptors;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Component;\r\nimport org.springframework.web.servlet.HandlerInterceptor;\r\n\r\nimport com.baomidou.mybatisplus.core.toolkit.StringUtils;\r\nimport com.fasterxml.jackson.databind.ObjectMapper;\r\nimport com.goodtown.utils.JwtHelper;\r\nimport com.goodtown.utils.Result;\r\nimport com.goodtown.utils.ResultCodeEnum;\r\n\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport jakarta.servlet.http.HttpServletResponse;\r\n\r\n@Component\r\npublic class LoginProtectInterceptor implements HandlerInterceptor {\r\n\r\n    @Autowired\r\n    private JwtHelper jwtHelper;\r\n    \r\n    @SuppressWarnings(\"rawtypes\")\r\n    @Override\r\n    public boolean preHandle(@SuppressWarnings(\"null\") HttpServletRequest request, @SuppressWarnings(\"null\") HttpServletResponse response, @SuppressWarnings(\"null\") Object handler) throws Exception {\r\n\r\n        String token = request.getHeader(\"token\");\r\n        if (StringUtils.isEmpty(token) || jwtHelper.isExpiration(token)){\r\n            Result result = Result.build(null, ResultCodeEnum.NOTLOGIN);\r\n            ObjectMapper objectMapper = new ObjectMapper();\r\n            String json = objectMapper.writeValueAsString(result);\r\n            response.getWriter().print(json);\r\n            //拦截\r\n            return false;\r\n        }else{\r\n            //放行\r\n            return true;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/goodtown/interceptors/LoginProtectInterceptor.java b/src/main/java/com/goodtown/interceptors/LoginProtectInterceptor.java
+--- a/src/main/java/com/goodtown/interceptors/LoginProtectInterceptor.java	(revision d90c5d4448fa36910e22fd20ae6ed1ccd2df3de4)
++++ b/src/main/java/com/goodtown/interceptors/LoginProtectInterceptor.java	(date 1733577797235)
+@@ -18,6 +18,9 @@
+ 
+     @Autowired
+     private JwtHelper jwtHelper;
++
++    // 添加静态的ThreadLocal变量
++    private static ThreadLocal<Long> userThreadLocal = new ThreadLocal<>();
+     
+     @SuppressWarnings("rawtypes")
+     @Override
+@@ -32,8 +35,22 @@
+             //拦截
+             return false;
+         }else{
++            // 从token中获取用户信息，存储到ThreadLocal
++            Long userId = jwtHelper.getUserId(token);
++            userThreadLocal.set(userId);
+             //放行
+             return true;
+         }
+     }
++
++    // 请求处理完成后清理ThreadLocal，防止内存泄漏
++    @Override
++    public void afterCompletion(@SuppressWarnings("null") HttpServletRequest request, @SuppressWarnings("null") HttpServletResponse response, @SuppressWarnings("null") Object handler, @SuppressWarnings("null") Exception ex) throws Exception {
++        userThreadLocal.remove();
++    }
++
++    // 提供获取用户信息的方法
++    public static Long getUserId() {
++        return userThreadLocal.get();
++    }
+ }
+Index: src/main/java/com/goodtown/controller/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.goodtown.controller;\r\n\r\nimport org.springframework.web.bind.annotation.CrossOrigin;\r\nimport org.springframework.web.bind.annotation.GetMapping;\r\nimport org.springframework.web.bind.annotation.PostMapping;\r\nimport org.springframework.web.bind.annotation.RequestBody;\r\nimport org.springframework.web.bind.annotation.RequestHeader;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RestController;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\n\r\nimport com.goodtown.pojo.User;\r\nimport com.goodtown.service.UserService;\r\nimport com.goodtown.utils.Result;\r\n\r\n@RestController\r\n@RequestMapping(\"/user\")\r\n@CrossOrigin\r\n@SuppressWarnings(\"rawtypes\")\r\npublic class UserController {\r\n\r\n    @Autowired\r\n    private UserService userService;\r\n    \r\n    @PostMapping(\"login\")\r\n    public Result login(@RequestBody User user){\r\n        Result result = userService.login(user);\r\n        System.out.println(\"result = \" + result);\r\n        return result;\r\n    }\r\n\r\n    @GetMapping(\"getUserInfo\")\r\n    public Result userInfo(@RequestHeader String token){\r\n        Result result = userService.getUserInfo(token);\r\n        return result;\r\n    }\r\n\r\n    @PostMapping(\"checkUserName\")\r\n    public Result checkUserName(String username){\r\n        Result result = userService.checkUserName(username);\r\n        return result;\r\n    }\r\n\r\n    @PostMapping(\"regist\")\r\n    public Result regist(@RequestBody User user){\r\n        Result result = userService.regist(user);\r\n        return result;\r\n    }\r\n\r\n    @PostMapping(\"updateUserInfo\")\r\n    public Result updateUserInfo(@RequestBody User user){\r\n        Result result = userService.updateUserInfo(user);\r\n        return result;\r\n    }\r\n\r\n    @PostMapping(\"checkPassWord\")\r\n    public Result checkPassWord(String password){\r\n        Result result = userService.checkPassWord(password);\r\n        return result;\r\n    }\r\n\r\n    @GetMapping(\"checkLogin\")\r\n    public Result checkLogin(@RequestHeader String token){\r\n        Result result = userService.checkLogin(token);\r\n        return result;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/goodtown/controller/UserController.java b/src/main/java/com/goodtown/controller/UserController.java
+--- a/src/main/java/com/goodtown/controller/UserController.java	(revision d90c5d4448fa36910e22fd20ae6ed1ccd2df3de4)
++++ b/src/main/java/com/goodtown/controller/UserController.java	(date 1733577797226)
+@@ -36,7 +36,7 @@
+     }
+ 
+     @PostMapping("checkUserName")
+-    public Result checkUserName(String username){
++    public Result checkUserName(@RequestBody String username){
+         Result result = userService.checkUserName(username);
+         return result;
+     }
+@@ -54,7 +54,7 @@
+     }
+ 
+     @PostMapping("checkPassWord")
+-    public Result checkPassWord(String password){
++    public Result checkPassWord(@RequestBody String password){
+         Result result = userService.checkPassWord(password);
+         return result;
+     }
+Index: src/main/java/com/goodtown/utils/ResultCodeEnum.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.goodtown.utils;\r\n\r\npublic enum ResultCodeEnum {\r\n    SUCCESS(200,\"success\"),\r\n    USERNAME_ERROR(501,\"usernameError\"),\r\n    PASSWORD_ERROR(503,\"passwordError\"),\r\n    NOTLOGIN(504,\"notLogin\"),\r\n    USERNAME_USED(505,\"userNameUsed\"),\r\n    PASSWORD_TOO_SHORT(506,\"passwordTooShort\"),\r\n    PASSWORD_TOO_FEW_DIGITS(507,\"passwordTooFewDigits\"),\r\n    PASSWORD_CASE_REQUIREMENT(508,\"passwordCaseRequirement\");\r\n\r\n    private Integer code;\r\n    private String message;\r\n    private ResultCodeEnum(Integer code, String message) {\r\n        this.code = code;\r\n        this.message = message;\r\n    }\r\n    public Integer getCode() {\r\n        return code;\r\n    }\r\n    public String getMessage() {\r\n        return message;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/goodtown/utils/ResultCodeEnum.java b/src/main/java/com/goodtown/utils/ResultCodeEnum.java
+--- a/src/main/java/com/goodtown/utils/ResultCodeEnum.java	(revision d90c5d4448fa36910e22fd20ae6ed1ccd2df3de4)
++++ b/src/main/java/com/goodtown/utils/ResultCodeEnum.java	(date 1733577797253)
+@@ -2,13 +2,13 @@
+ 
+ public enum ResultCodeEnum {
+     SUCCESS(200,"success"),
+-    USERNAME_ERROR(501,"usernameError"),
+-    PASSWORD_ERROR(503,"passwordError"),
+-    NOTLOGIN(504,"notLogin"),
+-    USERNAME_USED(505,"userNameUsed"),
+-    PASSWORD_TOO_SHORT(506,"passwordTooShort"),
+-    PASSWORD_TOO_FEW_DIGITS(507,"passwordTooFewDigits"),
+-    PASSWORD_CASE_REQUIREMENT(508,"passwordCaseRequirement");
++    USERNAME_ERROR(501,"Username does not exist"),
++    PASSWORD_ERROR(503,"Password wrong"),
++    NOTLOGIN(504,"Not logged in"),
++    USERNAME_USED(505,"Username is already in use"),
++    PASSWORD_TOO_SHORT(506,"Password is too short"),
++    PASSWORD_TOO_FEW_DIGITS(507,"Password must contain at least two digits"),
++    PASSWORD_CASE_REQUIREMENT(508,"password cannot be all uppercase or all lowercase"),;
+ 
+     private Integer code;
+     private String message;
+Index: src/main/java/com/goodtown/pojo/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.goodtown.pojo;\r\n\r\nimport lombok.Data;\r\n\r\nimport java.io.Serializable;\r\nimport java.time.LocalDateTime;\r\n\r\nimport com.baomidou.mybatisplus.annotation.FieldFill;\r\nimport com.baomidou.mybatisplus.annotation.TableField;\r\nimport com.baomidou.mybatisplus.annotation.TableId;\r\n\r\n/**\r\n * \r\n * @TableName user\r\n */\r\n@Data\r\npublic class User implements Serializable{\r\n\r\n    //用户信息类：用户标识、用户名、登录密码、用户类型（系统管理员/普通用户）、用户姓名、证件类型、证件号码、手机号码(11 位数字)、用户简介、注册时间、修改时间\r\n    @TableId\r\n    private Integer id;\r\n    private String uname;\r\n    private String bpwd;\r\n    private String bname;\r\n    private String ctype;\r\n    private String idno;\r\n    private String phoneno;\r\n    @TableField(\"`desc`\")\r\n    private String description;\r\n    @TableField(fill = FieldFill.INSERT)\r\n    private LocalDateTime rdate;\r\n    @TableField(fill = FieldFill.INSERT_UPDATE)\r\n    private LocalDateTime udate;\r\n    private String userlvl;\r\n\r\n    private static final long serialVersionUID = 1L;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/goodtown/pojo/User.java b/src/main/java/com/goodtown/pojo/User.java
+--- a/src/main/java/com/goodtown/pojo/User.java	(revision d90c5d4448fa36910e22fd20ae6ed1ccd2df3de4)
++++ b/src/main/java/com/goodtown/pojo/User.java	(date 1733577797241)
+@@ -16,7 +16,6 @@
+ @Data
+ public class User implements Serializable{
+ 
+-    //用户信息类：用户标识、用户名、登录密码、用户类型（系统管理员/普通用户）、用户姓名、证件类型、证件号码、手机号码(11 位数字)、用户简介、注册时间、修改时间
+     @TableId
+     private Integer id;
+     private String uname;

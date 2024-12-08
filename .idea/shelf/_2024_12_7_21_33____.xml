@@ -1,0 +1,29 @@
+<changelist name="在进行更新之前于_2024_12_7_21_33_取消提交了更改_[更改]" date="1733578441078" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2024_12_7_21_33_取消提交了更改_[更改]/shelved.patch" />
+  <option name="DESCRIPTION" value="在进行更新之前于 2024/12/7 21:33 取消提交了更改 [更改]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/goodtown/controller/UserController.class" />
+    <option name="AFTER_PATH" value="target/classes/com/goodtown/controller/UserController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2024_12_7_21_33_取消提交了更改_[更改]/UserController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/goodtown/utils/ResultCodeEnum.class" />
+    <option name="AFTER_PATH" value="target/classes/com/goodtown/utils/ResultCodeEnum.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2024_12_7_21_33_取消提交了更改_[更改]/ResultCodeEnum.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/goodtown/config/WebMvcConfig.class" />
+    <option name="AFTER_PATH" value="target/classes/com/goodtown/config/WebMvcConfig.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2024_12_7_21_33_取消提交了更改_[更改]/WebMvcConfig.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/goodtown/interceptors/LoginProtectInterceptor.class" />
+    <option name="AFTER_PATH" value="target/classes/com/goodtown/interceptors/LoginProtectInterceptor.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2024_12_7_21_33_取消提交了更改_[更改]/LoginProtectInterceptor.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/goodtown/service/UserServiceImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/com/goodtown/service/UserServiceImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/在进行更新之前于_2024_12_7_21_33_取消提交了更改_[更改]/UserServiceImpl.class" />
+  </binary>
+</changelist>
