@@ -115,6 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         }
         user.setBpwd(null);
+        user.setId(null);
         // 返回用户信息
         return Result.ok(user);
     }
@@ -224,9 +225,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public Result updateUserInfo(User user) {
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getUname, user.getUname());
-        User user1 = userMapper.selectOne(queryWrapper);
+        Long userId = LoginProtectInterceptor.getUserId();
+        if (userId == null) {
+            return Result.build(null, ResultCodeEnum.NOTLOGIN);
+        }
+
+        User user1 = userMapper.selectById(userId);
 
         if (user1 == null) {
             return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
