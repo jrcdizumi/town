@@ -115,6 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
         }
         user.setBpwd(null);
+        user.setId(null);
         // 返回用户信息
         return Result.ok(user);
     }
