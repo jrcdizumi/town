@@ -237,18 +237,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         // 只能修改密码、手机号、简介
-        user1.setDescription(user.getDescription());
-        user1.setBpwd(MD5Util.encrypt(user.getBpwd()));  
-        user1.setPhoneno(user.getPhoneno());   
+        if(user.getDescription()!=null)user1.setDescription(user.getDescription());
+        if(user.getBpwd()!=null)user1.setBpwd(MD5Util.encrypt(user.getBpwd()));  
+        if(user.getPhoneno()!=null)user1.setPhoneno(user.getPhoneno());   
 
         int rows = userMapper.updateById(user1);
         System.out.println("rows = " + rows);
         
         
         // 更新 Redis 缓存中的用户信息
-        user = userMapper.selectById(user.getId());
-        redisTemplate.opsForValue().set("user:" + user.getUname(), user);
-        redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("user:" + user1.getUname(), user1);
+        redisTemplate.expire("user:" + user1.getUname(), 360, TimeUnit.SECONDS);
         return Result.ok(null);
     }
 
