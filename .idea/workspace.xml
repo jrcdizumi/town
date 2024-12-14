@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70e001d3-e4be-4ae1-a483-fd6d5805a26e" name="更改" comment="好宣传Controller">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/config/WebMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/mapper/PromotionalTypeMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/mapper/PromotionalTypeMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/mapper/PublicizeMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/mapper/PublicizeMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/goodtown/service/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/goodtown/service/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,8 +68,10 @@
     "JUnit.MyTest.testUploadFile (1).executor": "Run",
     "JUnit.MyTest.testUploadFile.executor": "Run",
     "JUnit.SampleTest.testRegist.executor": "Debug",
+    "Maven.town [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.town [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "正在合并 main",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/workspace4idea/sky-take-out",
     "node.js.detected.package.eslint": "true",
@@ -209,6 +208,7 @@
       <workItem from="1733493800553" duration="8971000" />
       <workItem from="1733570178668" duration="7196000" />
       <workItem from="1733632736740" duration="12440000" />
+      <workItem from="1734169861998" duration="166000" />
     </task>
     <task id="LOCAL-00001" summary="对象存储服务">
       <option name="closed" value="true" />
