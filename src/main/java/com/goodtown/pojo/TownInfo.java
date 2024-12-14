@@ -10,8 +10,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
  */
 @Data
 public class TownInfo implements Serializable {
+
     @TableField(value = "townID")
     private String townID;
+
     @TableField(value = "townName")
     private String townName;
     @TableField(value = "cityName")

@@ -50,4 +50,14 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
             return null;
         }
     }
+
+    @Override
+    public Result getDetail(String id) {
+        TownPromotional res = this.getById(id);
+        if(res == null)
+        {
+            return Result.build(null,400,"找不到该推广信息");
+        }
+        return Result.ok(res);
+    }
 }

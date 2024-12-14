@@ -8,4 +8,6 @@ public interface PublicizeService {
     Result submit(TownPromotional data);
 
     String getAll();
+
+    Result getDetail(String id);
 }
