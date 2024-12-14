@@ -19,4 +19,6 @@ public interface UserService {
     Result checkPassWord(String password);
 
     Result checkLogin(String token);
+
+    Result checkSameUser(Long userId, String token);
 }

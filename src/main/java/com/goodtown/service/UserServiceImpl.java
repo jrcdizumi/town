@@ -30,6 +30,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private  UserMapper userMapper;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    private Result<User> ok;
 
     /**
      * 登录业务实现
@@ -117,7 +118,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setBpwd(null);
         user.setId(null);
         // 返回用户信息
-        return Result.ok(user);
+        return ok;
     }
 
     /**
@@ -270,4 +271,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         data.put("uname", user.getUname());
         return Result.ok(data);
     }
+
+    @Override
+    public Result checkSameUser(Long userId, String token) {
+        Long nowUserId = jwtHelper.getUserId(token);
+        if (nowUserId == null || !nowUserId.equals(userId)) {
+            return Result.build(null, 400, "不一致");
+        }
+        return Result.ok(null);
+    }
+
+
 }

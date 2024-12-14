@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70e001d3-e4be-4ae1-a483-fd6d5805a26e" name="更改" comment="好宣传Controller">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +209,7 @@
       <workItem from="1733493800553" duration="8971000" />
       <workItem from="1733570178668" duration="7196000" />
       <workItem from="1733632736740" duration="12440000" />
-      <workItem from="1734169861998" duration="166000" />
+      <workItem from="1734169861998" duration="1864000" />
     </task>
     <task id="LOCAL-00001" summary="对象存储服务">
       <option name="closed" value="true" />
@@ -272,6 +273,21 @@
           <url>file://$PROJECT_DIR$/src/test/java/MyTest.java</url>
           <line>33</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/goodtown/controller/UserController.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java</url>
+          <line>277</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java</url>
+          <line>276</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
