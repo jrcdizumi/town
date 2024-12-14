@@ -39,7 +39,7 @@ public class JwtHelper {
 
     //从token字符串获取userid
     public  Long getUserId(String token) {
-        if(StringUtils.isEmpty(token)) return null;
+        if(StringUtils.isEmpty(token)||isExpiration(token)) return null;
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(tokenSignKey).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
         Integer userId = (Integer)claims.get("userId");
