@@ -1,4 +1,5 @@
 package com.goodtown.controller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goodtown.pojo.TownPromotional;
 import com.goodtown.service.PromotionalTypeServiceImpl;
 import com.goodtown.service.PublicizeService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/publicize")
@@ -72,5 +74,10 @@ public class PublicizeContorller {
     @DeleteMapping("delete/{id}")
     public Result deletePromotional(@PathVariable String id, @RequestParam Long userId,@RequestHeader(value = "token", required = false) String token) {
         return publicizeService.deletePromotional(id,userId, token);
+    }
+
+    @PutMapping("update")
+    public Result updatePromotional(@RequestBody Map<String, Object> data, @RequestHeader(value = "token", required = false) String token) {
+        return publicizeService.updatePromotional(data, token);
     }
 }

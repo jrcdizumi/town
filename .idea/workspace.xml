@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +211,7 @@
       <workItem from="1733570178668" duration="7196000" />
       <workItem from="1733632736740" duration="12440000" />
       <workItem from="1734169861998" duration="6029000" />
-      <workItem from="1734236632275" duration="1661000" />
+      <workItem from="1734236632275" duration="4675000" />
     </task>
     <task id="LOCAL-00001" summary="对象存储服务">
       <option name="closed" value="true" />
@@ -272,12 +273,21 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeServiceImpl.java</url>
-          <line>69</line>
+          <line>71</line>
           <properties class="com.goodtown.service.PublicizeServiceImpl" method="deletePromotional">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/goodtown/controller/UserController.java</url>
+          <line>26</line>
+          <properties class="com.goodtown.controller.UserController" method="userInfo">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/MyTest.java</url>

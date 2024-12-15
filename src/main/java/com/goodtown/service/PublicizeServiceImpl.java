@@ -13,7 +13,9 @@ import com.goodtown.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromotional > implements PublicizeService {
@@ -89,4 +91,64 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
         }
 
     }
+
+    @Override
+    public Result updatePromotional(Map<String, Object> data, String token) {
+        if (token == null) {
+            return Result.build(null, 400, "Token is missing");
+        }
+        data= data.get("data") == null ? null : (Map<String, Object>) data.get("data");
+        if(data == null) {
+            return Result.build(null, 400, "Data is missing");
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        TownPromotional promotional;
+        try {
+            promotional = objectMapper.convertValue(data, TownPromotional.class);
+        } catch (IllegalArgumentException e) {
+            return Result.build(null, 400, "Invalid data format");
+        }
+        if(promotional == null) {
+            return Result.build(null, 400, "Data is missing");
+        }
+        Result result = userService.checkSameUser(promotional.getPuserid(), token);
+        if(result.getCode()!=200)
+        {
+            return result;
+        }
+        promotional.setPupdatedate(LocalDateTime.now());
+        TownPromotional existingPromotional = this.getById(promotional.getPid());
+        if (existingPromotional == null) {
+            return Result.build(null, 400, "Promotional not found");
+        }
+        if (promotional.getPtitle() != null) {
+            existingPromotional.setPtitle(promotional.getPtitle());
+        }
+        if (promotional.getPdesc() != null) {
+            existingPromotional.setPdesc(promotional.getPdesc());
+        }
+        if (promotional.getPfileList() != null) {
+            existingPromotional.setPfileList(promotional.getPfileList());
+        }
+        if (promotional.getPstate() != null) {
+            existingPromotional.setPstate(promotional.getPstate());
+        }
+        if (promotional.getPtypeId() != null) {
+            existingPromotional.setPtypeId(promotional.getPtypeId());
+        }
+        if (promotional.getVideourl() != null) {
+            existingPromotional.setVideourl(promotional.getVideourl());
+        }
+        if (promotional.getTownID() != null) {
+            existingPromotional.setTownID(promotional.getTownID());
+        }
+        existingPromotional.setPupdatedate(LocalDateTime.now());
+        boolean updateResult = this.updateById(existingPromotional);
+        if (updateResult) {
+            return Result.ok("更新成功");
+        } else {
+            return Result.build(null, 400, "更新失败");
+        }
+    }
+
 }

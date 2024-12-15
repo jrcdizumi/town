@@ -275,7 +275,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public Result checkSameUser(Long userId, String token) {
         Long nowUserId = jwtHelper.getUserId(token);
-        if (nowUserId == null || !nowUserId.equals(userId)) {
+        if (userId==null||nowUserId == null || !nowUserId.equals(userId)) {
             return Result.build(null, 400, "不一致");
         }
         return Result.ok(null);
