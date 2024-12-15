@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70e001d3-e4be-4ae1-a483-fd6d5805a26e" name="更改" comment="好宣传Controller">
+      <change afterPath="$PROJECT_DIR$/town.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/controller/PublicizeContorller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/PublicizeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,41 +61,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.MyTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTest.testUploadFile (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.MyTest.testUploadFile.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.SampleTest.testRegist.executor&quot;: &quot;Debug&quot;,
-    &quot;Maven.town [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.town [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/workspace4idea/sky-take-out&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
-    &quot;应用程序.MainApplication.executor&quot;: &quot;Debug&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.MyTest.executor": "Run",
+    "JUnit.MyTest.testUploadFile (1).executor": "Run",
+    "JUnit.MyTest.testUploadFile.executor": "Run",
+    "JUnit.SampleTest.testRegist.executor": "Debug",
+    "Maven.town [org.apache.maven.plugins:maven-clean-plugin:3.3.2:clean].executor": "Run",
+    "Maven.town [org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/workspace4idea/town",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true",
+    "应用程序.MainApplication.executor": "Debug"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace4idea\town" />
       <recent name="D:\workspace4idea\town\src\test" />
       <recent name="D:\workspace4idea\town\src\main\resources" />
       <recent name="D:\workspace4idea\town\src\main\java\com\goodtown\pojo" />
@@ -211,7 +209,7 @@
       <workItem from="1733570178668" duration="7196000" />
       <workItem from="1733632736740" duration="12440000" />
       <workItem from="1734169861998" duration="6029000" />
-      <workItem from="1734236632275" duration="4675000" />
+      <workItem from="1734236632275" duration="6462000" />
     </task>
     <task id="LOCAL-00001" summary="对象存储服务">
       <option name="closed" value="true" />
@@ -293,6 +291,16 @@
           <url>file://$PROJECT_DIR$/src/test/java/MyTest.java</url>
           <line>33</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/goodtown/controller/UserController.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/goodtown/service/UserServiceImpl.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
