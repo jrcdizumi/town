@@ -10,12 +10,16 @@ import com.goodtown.mapper.UserMapper;
 import com.goodtown.pojo.TownPromotional;
 import com.goodtown.pojo.User;
 import com.goodtown.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromotional > implements PublicizeService {
+    @Autowired
+    private UserService userService;
+
     public PublicizeServiceImpl() {
         super();
     }
@@ -40,7 +44,8 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
 
     @Override
     public String getAll() {
-        List<TownPromotional> list = this.list();
+        //添加条件：未删除的
+        List<TownPromotional> list = this.lambdaQuery().eq(TownPromotional::getPstate, 0).list();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         try {
@@ -59,5 +64,29 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
             return Result.build(null,400,"找不到该推广信息");
         }
         return Result.ok(res);
+    }
+
+    @Override
+    public Result deletePromotional(String id,Long userId, String token) {
+        Result result = userService.checkSameUser(userId, token);
+        if(result.getCode()!=200)
+        {
+            return result;
+        }
+        //检查有没有助力信息，没有的才能删除，预留接口
+
+        TownPromotional promotional = this.getById(id);
+        if (promotional == null) {
+            return Result.build(null, 400, "找不到该推广信息");
+        }
+
+        promotional.setPstate(-1);
+        boolean updateResult = this.updateById(promotional);
+        if (updateResult) {
+            return Result.ok("删除成功");
+        } else {
+            return Result.build(null, 400, "删除失败");
+        }
+
     }
 }

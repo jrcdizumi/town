@@ -3,6 +3,7 @@ import com.goodtown.pojo.TownPromotional;
 import com.goodtown.service.PromotionalTypeServiceImpl;
 import com.goodtown.service.PublicizeService;
 import com.goodtown.service.TownInfoServiceImpl;
+import com.goodtown.service.UserService;
 import com.goodtown.utils.Result;
 import com.goodtown.utils.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class PublicizeContorller {
 
     @Autowired
     private TownInfoServiceImpl townInfoService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("test")
     public String test(){
@@ -63,5 +67,10 @@ public class PublicizeContorller {
     @GetMapping("detail")
     public Result getDetail(@RequestParam String id) {
         return publicizeService.getDetail(id);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public Result deletePromotional(@PathVariable String id, @RequestParam Long userId,@RequestHeader(value = "token", required = false) String token) {
+        return publicizeService.deletePromotional(id,userId, token);
     }
 }

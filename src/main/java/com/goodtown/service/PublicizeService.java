@@ -10,4 +10,6 @@ public interface PublicizeService {
     String getAll();
 
     Result getDetail(String id);
+
+    Result deletePromotional(String id,Long userId, String token);
 }
