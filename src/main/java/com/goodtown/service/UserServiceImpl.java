@@ -30,7 +30,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private  UserMapper userMapper;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-    private Result<User> ok;
 
     /**
      * 登录业务实现
@@ -96,29 +95,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return Result.build(null, ResultCodeEnum.NOTLOGIN);
         }
 
-        String username = user1.getUname();
-        // 从 Redis 中获取用户信息
-        User user = (User) redisTemplate.opsForValue().get("user:" + username);
-
-        // 如果 Redis 中没有缓存用户信息，则从数据库中查询
-        if (user == null) {
-            LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(User::getUname, username);
-            user = userMapper.selectOne(queryWrapper);
-
-            // 如果数据库中也没有用户信息，则返回错误
-            if (user == null) {
-                return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
-            }
-
-            // 将用户信息缓存到 Redis 中
-            redisTemplate.opsForValue().set("user:" + username, user);
-            redisTemplate.expire("user:" + user.getUname(), 360, TimeUnit.SECONDS);
-        }
-        user.setBpwd(null);
-        user.setId(null);
+        user1.setBpwd(null);
+        user1.setId(null);
         // 返回用户信息
-        return ok;
+        return Result.ok(user1);
     }
 
     /**
