@@ -65,10 +65,16 @@ public class SupportController {
     public Result handleSupport(@RequestParam String supportId, 
                           @RequestParam Integer action,
                           @RequestHeader("token") String token) {
-    Long userId = LoginProtectInterceptor.getUserId();
-    if (userId == null) {
-        return Result.build(null, 400, "请先登录");
+        Long userId = LoginProtectInterceptor.getUserId();
+        if (userId == null) {
+            return Result.build(null, 400, "请先登录");
+        }
+        return supportService.handleSupport(supportId, action, userId, token);
     }
-    return supportService.handleSupport(supportId, action, userId, token);
-}
+
+    @GetMapping("/mylist/{uid}")
+    public Result getMySupportsList(@RequestHeader("token") String token) {
+        Long uid = LoginProtectInterceptor.getUserId();
+        return supportService.getMySupportsList(uid);
+    }
 }

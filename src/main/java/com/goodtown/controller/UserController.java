@@ -3,6 +3,7 @@ package com.goodtown.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.goodtown.interceptors.LoginProtectInterceptor;
 import com.goodtown.pojo.User;
 import com.goodtown.service.UserService;
 import com.goodtown.utils.Result;
@@ -25,7 +26,8 @@ public class UserController {
 
     @GetMapping("getUserInfo")
     public Result userInfo(@RequestHeader String token){
-        Result result = userService.getUserInfo(token);
+        Long userId = LoginProtectInterceptor.getUserId();
+        Result result = userService.getUserInfo(userId);
         return result;
     }
 

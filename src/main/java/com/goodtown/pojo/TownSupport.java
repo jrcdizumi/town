@@ -24,6 +24,6 @@ public class TownSupport implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateDate;
     private String sfileList;
-
+    private String videourl;
     private static final long serialVersionUID = 1L;
 }

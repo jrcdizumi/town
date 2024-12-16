@@ -32,4 +32,6 @@ public interface SupportService {
      * @return Result
      */
     Result handleSupport(String supportId, Integer action, Long userId, String token);
+
+    Result getMySupportsList(Long uid);
 }

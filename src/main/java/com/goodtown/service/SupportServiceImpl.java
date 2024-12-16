@@ -1,4 +1,4 @@
-package com.goodtown.service.impl;
+package com.goodtown.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,9 +6,6 @@ import com.goodtown.interceptors.LoginProtectInterceptor;
 import com.goodtown.mapper.SupportMapper;
 import com.goodtown.pojo.TownPromotional;
 import com.goodtown.pojo.TownSupport;
-import com.goodtown.service.PublicizeService;
-import com.goodtown.service.SupportService;
-import com.goodtown.service.UserService;
 import com.goodtown.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -195,5 +192,14 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
 
         String message = action == 1 ? "Support request accepted" : "Support request rejected";
         return Result.ok(message);
+    }
+
+    @Override
+    public Result getMySupportsList(Long uid) {
+        List<TownSupport> supports = this.lambdaQuery()
+                .eq(TownSupport::getSuserId, uid)
+                .ne(TownSupport::getSupportState, 3) // 排除已取消的记录
+                .list();
+        return Result.ok(supports);
     }
 }

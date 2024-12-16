@@ -8,7 +8,7 @@ public interface UserService {
 
     Result login(User user);
 
-    Result getUserInfo(String token);
+    Result getUserInfo(Long userId);
 
     Result checkUserName(String username);
 

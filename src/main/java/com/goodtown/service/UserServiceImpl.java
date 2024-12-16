@@ -82,9 +82,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     * @return result封装
     */
     @Override
-    public Result getUserInfo(String token) {
+    public Result getUserInfo(Long userId) {
         // 解析 token 获取用户信息
-        Long userId = LoginProtectInterceptor.getUserId();
         if (userId == null) {
             return Result.build(null, ResultCodeEnum.NOTLOGIN);
         }
