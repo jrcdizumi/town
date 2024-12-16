@@ -38,7 +38,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         data.setUpdateDate(LocalDateTime.now());
         
         boolean res = this.save(data);
-        return res ? Result.ok("提交成功") : Result.build(null, 400, "提交失败");
+        return res ? Result.ok("Submit successful") : Result.build(null, 400, "Submit failed");
     }
 
     @Override
@@ -111,29 +111,29 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
 
         TownSupport support = this.getById(id);
         if (support == null) {
-            return Result.build(null, 400, "support not found");
+            return Result.build(null, 400, "Support not found");
         }
 
         if (!userId.equals(Long.valueOf(support.getSuserId()))) {
-            return Result.build(null, 400, "couldn't delete other user's support");
+            return Result.build(null, 400, "No permission to delete other user's support");
         }
 
         if (support.getSupportState() == 1) {
-            return Result.build(null, 400, "couldn't delete a support that has been accepted");
+            return Result.build(null, 400, "Cannot delete an accepted support");
         }
 
         support.setSupportState(3); // 设置状态为取消（逻辑删除）
         support.setUpdateDate(LocalDateTime.now());
         
         boolean updateResult = this.updateById(support);
-        return updateResult ? Result.ok("删除成功") : Result.build(null, 400, "删除失败");
+        return updateResult ? Result.ok("Delete successful") : Result.build(null, 400, "Delete failed");
     }
 
     @Override
     public Result getDetail(String id) {
         TownSupport support = this.getById(id);
         if(support == null) {
-            return Result.build(null, 400, "找不到该助力信息");
+            return Result.build(null, 400, "Support not found");
         }
         return Result.ok(support);
     }
@@ -159,29 +159,29 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     @Override
     public Result handleSupport(String supportId, Integer action, Long userId, String token) {
         if (action != 1 && action != 2) {
-            return Result.build(null, 400, "无效的操作类型");
+            return Result.build(null, 400, "Invalid action type");
         }
 
         TownSupport support = this.getById(supportId);
         if (support == null) {
-            return Result.build(null, 400, "找不到该助力信息");
+            return Result.build(null, 400, "Support not found");
         }
 
         // 获取宣传信息
         Result promotionalResult = publicizeService.getDetail(String.valueOf(support.getPid()));
         if (promotionalResult.getCode() != 200) {
-            return Result.build(null, 400, "找不到对应的宣传信息");
+            return Result.build(null, 400, "Promotional not found");
         }
         TownPromotional promotional = (TownPromotional) promotionalResult.getData();
 
         // 检查当前用户是否为宣传信息的发布者
         if (!userId.equals(promotional.getPuserid())) {
-            return Result.build(null, 400, "只有宣传信息发布者才能处理助力申请");
+            return Result.build(null, 400, "Only promotional owner can handle support requests");
         }
 
         // 检查助力信息当前状态
         if (support.getSupportState() != 0) {
-            return Result.build(null, 400, "该助力信息已经被处理过");
+            return Result.build(null, 400, "This support has already been handled");
         }
 
         // 更新助力信息状态
@@ -190,10 +190,10 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         
         boolean updateResult = this.updateById(support);
         if (!updateResult) {
-            return Result.build(null, 400, "操作失败");
+            return Result.build(null, 400, "Operation failed");
         }
 
-        String message = action == 1 ? "已接受该助力申请" : "已拒绝该助力申请";
+        String message = action == 1 ? "Support request accepted" : "Support request rejected";
         return Result.ok(message);
     }
 }
