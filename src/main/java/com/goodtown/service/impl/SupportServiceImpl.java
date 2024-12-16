@@ -62,18 +62,22 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
 
         TownSupport existingSupport = this.getById(support.getSid());
         if (existingSupport == null) {
-            return Result.build(null, 400, "找不到该助力信息");
+            return Result.build(null, 400, "Support not found");
         }
 
         if (existingSupport.getSupportState() == 1) {
-            return Result.build(null, 400, "已接受的助力信息不能修改");
+            return Result.build(null, 400, "Cannot update a support that has been accepted");
         }
         
         // 如果新状态是1（接受），不允许通过更新接口设置
         if (support.getSupportState() != null && support.getSupportState() == 1) {
-            return Result.build(null, 400, "不能直接将状态设置为已接受");
+            return Result.build(null, 400, "Cannot update support state to accepted");
         }
         
+        if (support.getSupportState() != null && support.getSupportState() == 2) {
+            return Result.build(null, 400, "Cannot update support state to rejected");
+        }        
+
         if (support.getStitle() != null) {
             existingSupport.setStitle(support.getStitle());
         }
@@ -102,15 +106,15 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
 
         TownSupport support = this.getById(id);
         if (support == null) {
-            return Result.build(null, 400, "找不到该助力信息");
+            return Result.build(null, 400, "support not found");
         }
 
         if (!userId.equals(Long.valueOf(support.getSuserId()))) {
-            return Result.build(null, 400, "无权删除他人的助力信息");
+            return Result.build(null, 400, "couldn't delete other user's support");
         }
 
         if (support.getSupportState() == 1) {
-            return Result.build(null, 400, "已接受的助力信息不能删除");
+            return Result.build(null, 400, "couldn't delete a support that has been accepted");
         }
 
         support.setSupportState(3); // 设置状态为取消（逻辑删除）
