@@ -89,8 +89,8 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         if (support.getSfileList() != null) {
             existingSupport.setSfileList(support.getSfileList());
         }
-        if (support.getSupportState() != null) {
-            existingSupport.setSupportState(support.getSupportState());
+        if (support.getVideourl() != null) {
+            existingSupport.setVideourl(support.getVideourl());
         }
         
         existingSupport.setUpdateDate(LocalDateTime.now());
