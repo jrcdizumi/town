@@ -66,7 +66,9 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         if (existingSupport == null) {
             return Result.build(null, 400, "Support not found");
         }
-
+        if(existingSupport.getSupportState() == 3) {
+            return Result.build(null, 400, "This support has been deleted");
+        }
         if (existingSupport.getSupportState() == 1) {
             return Result.build(null, 400, "Cannot update a support that has been accepted");
         }
@@ -110,7 +112,9 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         if (support == null) {
             return Result.build(null, 400, "Support not found");
         }
-
+        if(support.getSupportState() == 3) {
+            return Result.build(null, 400, "This support has been deleted");
+        }
         if (!userId.equals(Long.valueOf(support.getSuserId()))) {
             return Result.build(null, 400, "No permission to delete other user's support");
         }
@@ -132,6 +136,9 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         if(support == null) {
             return Result.build(null, 400, "Support not found");
         }
+        if(support.getSupportState() == 3) {
+            return Result.build(null, 400, "This support has been deleted");
+        }
         return Result.ok(support);
     }
 
@@ -145,10 +152,10 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public boolean hasUnhandledSupports(String pid) {
+    public boolean hasSupports(String pid) {
         Long count = this.lambdaQuery()
                 .eq(TownSupport::getPid, pid)
-                .eq(TownSupport::getSupportState, 0)
+                .ne(TownSupport::getSupportState, 3)
                 .count();
         return count > 0;
     }
@@ -163,7 +170,9 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         if (support == null) {
             return Result.build(null, 400, "Support not found");
         }
-
+        if(support.getSupportState() == 3) {
+            return Result.build(null, 400, "This support has been deleted");
+        }
         // 获取宣传信息
         Result promotionalResult = publicizeService.getDetail(String.valueOf(support.getPid()));
         if (promotionalResult.getCode() != 200) {

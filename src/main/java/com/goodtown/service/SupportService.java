@@ -21,7 +21,7 @@ public interface SupportService {
     Result getSupportsByPromotionalId(String pid);
     
     // 检查宣传信息是否有未处理的助力
-    boolean hasUnhandledSupports(String pid);
+    boolean hasSupports(String pid);
     
     /**
      * 处理助力信息（接受/拒绝）
