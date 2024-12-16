@@ -29,7 +29,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     public Result submitSupport(TownSupport data, String token) {
         Long userId = LoginProtectInterceptor.getUserId();
         if(userId == null) {
-            return Result.build(null, 400, "请先登录");
+            return Result.build(null, 400, "Please login first");
         }
         
         data.setSuserId(userId.intValue());
