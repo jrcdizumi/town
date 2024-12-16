@@ -17,7 +17,7 @@ public class TownSupport implements Serializable {
     private Integer suserId;
     private Integer pid;
     private String stitle;
-    private Integer sdesc;
+    private String sdesc;
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime supportDate;
     private Integer supportState;
