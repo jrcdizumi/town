@@ -22,4 +22,14 @@ public interface SupportService {
     
     // 检查宣传信息是否有未处理的助力
     boolean hasUnhandledSupports(String pid);
+    
+    /**
+     * 处理助力信息（接受/拒绝）
+     * @param supportId 助力信息ID
+     * @param action 操作类型：1-接受，2-拒绝
+     * @param userId 当前用户ID
+     * @param token 用户token
+     * @return Result
+     */
+    Result handleSupport(String supportId, Integer action, Long userId, String token);
 }

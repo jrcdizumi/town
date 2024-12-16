@@ -1,5 +1,6 @@
 package com.goodtown.controller;
 
+import com.goodtown.interceptors.LoginProtectInterceptor;
 import com.goodtown.pojo.TownSupport;
 import com.goodtown.service.SupportService;
 import com.goodtown.utils.Result;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class SupportController {
     @Autowired
     private UploadFile uploadFile;
-    
+
     @Autowired
     private SupportService supportService;
 
@@ -60,4 +61,14 @@ public class SupportController {
     public Result getSupportsList(@PathVariable String pid) {
         return supportService.getSupportsByPromotionalId(pid);
     }
+    @PostMapping("/handle")
+    public Result handleSupport(@RequestParam String supportId, 
+                          @RequestParam Integer action,
+                          @RequestHeader("token") String token) {
+    Long userId = LoginProtectInterceptor.getUserId();
+    if (userId == null) {
+        return Result.build(null, 400, "请先登录");
+    }
+    return supportService.handleSupport(supportId, action, userId, token);
+}
 }

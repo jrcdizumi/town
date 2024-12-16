@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goodtown.interceptors.LoginProtectInterceptor;
 import com.goodtown.mapper.SupportMapper;
+import com.goodtown.pojo.TownPromotional;
 import com.goodtown.pojo.TownSupport;
+import com.goodtown.service.PublicizeService;
 import com.goodtown.service.SupportService;
 import com.goodtown.service.UserService;
 import com.goodtown.utils.Result;
@@ -19,6 +21,9 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private PublicizeService publicizeService;  // 添加这个注入
 
     @Override
     public Result submitSupport(TownSupport data, String token) {
@@ -149,5 +154,46 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
                 .eq(TownSupport::getSupportState, 0)
                 .count();
         return count > 0;
+    }
+
+    @Override
+    public Result handleSupport(String supportId, Integer action, Long userId, String token) {
+        if (action != 1 && action != 2) {
+            return Result.build(null, 400, "无效的操作类型");
+        }
+
+        TownSupport support = this.getById(supportId);
+        if (support == null) {
+            return Result.build(null, 400, "找不到该助力信息");
+        }
+
+        // 获取宣传信息
+        Result promotionalResult = publicizeService.getDetail(String.valueOf(support.getPid()));
+        if (promotionalResult.getCode() != 200) {
+            return Result.build(null, 400, "找不到对应的宣传信息");
+        }
+        TownPromotional promotional = (TownPromotional) promotionalResult.getData();
+
+        // 检查当前用户是否为宣传信息的发布者
+        if (!userId.equals(promotional.getPuserid())) {
+            return Result.build(null, 400, "只有宣传信息发布者才能处理助力申请");
+        }
+
+        // 检查助力信息当前状态
+        if (support.getSupportState() != 0) {
+            return Result.build(null, 400, "该助力信息已经被处理过");
+        }
+
+        // 更新助力信息状态
+        support.setSupportState(action);  // 1-接受，2-拒绝
+        support.setUpdateDate(LocalDateTime.now());
+        
+        boolean updateResult = this.updateById(support);
+        if (!updateResult) {
+            return Result.build(null, 400, "操作失败");
+        }
+
+        String message = action == 1 ? "已接受该助力申请" : "已拒绝该助力申请";
+        return Result.ok(message);
     }
 }
