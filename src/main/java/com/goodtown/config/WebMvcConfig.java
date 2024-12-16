@@ -15,7 +15,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(@SuppressWarnings("null") InterceptorRegistry registry) {
-        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/user/updateUserInfo").addPathPatterns("/publicize/submit");
-        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/user/getUserInfo");
+        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/user/updateUserInfo").addPathPatterns("/user/getUserInfo");
+        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/publicize/submit").addPathPatterns("/publicize/delete").addPathPatterns("/publicize/update");
+        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/support/submit").addPathPatterns("/support/update").addPathPatterns("/support/delete").addPathPatterns("/support/handle");
     }
 }
