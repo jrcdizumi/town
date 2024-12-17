@@ -11,9 +11,9 @@ public interface PublicizeService {
 
     String getAll();
 
-    Result getDetail(String id);
+    Result getDetail(Integer id);
 
-    Result deletePromotional(String id,Long userId, String token);
+    Result deletePromotional(Integer id,Long userId, String token);
 
     Result updatePromotional(Map<String, Object> data, String token);
 }

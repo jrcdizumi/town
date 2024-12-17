@@ -67,12 +67,12 @@ public class PublicizeContorller {
     }
 
     @GetMapping("detail")
-    public Result getDetail(@RequestParam String id) {
+    public Result getDetail(@RequestParam Integer id) {
         return publicizeService.getDetail(id);
     }
 
     @DeleteMapping("delete/{id}")
-    public Result deletePromotional(@PathVariable String id, @RequestParam Long userId,@RequestHeader(value = "token", required = false) String token) {
+    public Result deletePromotional(@PathVariable Integer id, @RequestParam Long userId,@RequestHeader(value = "token", required = false) String token) {
         return publicizeService.deletePromotional(id,userId, token);
     }
 

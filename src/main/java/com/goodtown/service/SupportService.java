@@ -12,16 +12,16 @@ public interface SupportService {
     Result updateSupport(Map<String, Object> data, String token);
     
     // 删除助力信息
-    Result deleteSupport(String id, Long userId);
+    Result deleteSupport(Integer id, Long userId);
     
     // 获取助力详情
-    Result getDetail(String id);
+    Result getDetail(Integer id);
     
     // 获取某个宣传下的所有助力信息
-    Result getSupportsByPromotionalId(String pid, String token);
+    Result getSupportsByPromotionalId(Integer pid, String token);
     
     // 检查宣传信息是否有未处理的助力
-    boolean hasSupports(String pid);
+    boolean hasSupports(Integer pid);
     
     /**
      * 处理助力信息（接受/拒绝）
@@ -31,7 +31,7 @@ public interface SupportService {
      * @param token 用户token
      * @return Result
      */
-    Result handleSupport(String supportId, Integer action, Long userId);
+    Result handleSupport(Integer supportId, Integer action, Long userId);
 
     Result getMySupportsList(Long uid);
 
@@ -41,5 +41,7 @@ public interface SupportService {
      * @param token 用户token
      * @return Result
      */
-    Result checkPromotionUserMatch(String supportId, String token);
+    Result checkPromotionUserMatch(Integer supportId, String token);
+
+    Result getSupportCnt(Integer pid);
 }

@@ -46,24 +46,24 @@ public class SupportController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Result deleteSupport(@PathVariable String id, 
+    public Result deleteSupport(@PathVariable Integer id, 
                               @RequestHeader(value = "token", required = false) String token) {
         Long userId = LoginProtectInterceptor.getUserId();
         return supportService.deleteSupport(id,userId);
     }
 
     @GetMapping("/detail/{id}")
-    public Result getDetail(@PathVariable String id) {
+    public Result getDetail(@PathVariable Integer id) {
         return supportService.getDetail(id);
     }
 
     @GetMapping("/list/{pid}")
-    public Result getSupportsList(@PathVariable String pid,
+    public Result getSupportsList(@PathVariable Integer pid,
                                 @RequestHeader(value = "token", required = false) String token) {
         return supportService.getSupportsByPromotionalId(pid, token);
     }
     @PostMapping("/handle")
-    public Result handleSupport(@RequestParam String supportId, 
+    public Result handleSupport(@RequestParam Integer supportId, 
                           @RequestParam Integer action,
                           @RequestHeader("token") String token) {
         Long userId = LoginProtectInterceptor.getUserId();
@@ -80,7 +80,7 @@ public class SupportController {
     }
 
     @GetMapping("/checkPromotionUserMatch")
-    public Result checkPromotionUserMatch(@RequestParam String supportId,
+    public Result checkPromotionUserMatch(@RequestParam Integer supportId,
                                           @RequestHeader("token") String token) {
         return supportService.checkPromotionUserMatch(supportId, token);
     }

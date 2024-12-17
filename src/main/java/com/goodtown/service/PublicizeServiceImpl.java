@@ -22,6 +22,9 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SupportService supportService;
+
     public PublicizeServiceImpl() {
         super();
     }
@@ -59,7 +62,7 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
     }
 
     @Override
-    public Result getDetail(String id) {
+    public Result getDetail(Integer id) {
         TownPromotional res = this.getById(id);
         if(res == null)
         {
@@ -69,14 +72,20 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
     }
 
     @Override
-    public Result deletePromotional(String id,Long userId, String token) {
+    public Result deletePromotional(Integer id,Long userId, String token) {
         Result result = userService.checkSameUser(userId, token);
         if(result.getCode()!=200)
         {
             return result;
         }
         //检查有没有助力信息，没有的才能删除，预留接口
-
+        Result supportResult = supportService.getSupportCnt(id);
+        if(supportResult.getCode() == 200) {
+            Long supportCnt = (Long) supportResult.getData();
+            if (supportCnt > 0) {
+                return Result.build(null, 400, "该推广信息下有未处理的助力信息，不能删除");
+            }
+        }
         TownPromotional promotional = this.getById(id);
         if (promotional == null) {
             return Result.build(null, 400, "找不到该推广信息");
@@ -115,6 +124,13 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
         if(result.getCode()!=200)
         {
             return result;
+        }
+        Result supportResult = supportService.getSupportCnt(promotional.getPid());
+        if(supportResult.getCode() == 200) {
+            Long supportCnt = (Long) supportResult.getData();
+            if (supportCnt > 0) {
+                return Result.build(null, 400, "该推广信息下有未处理的助力信息，不能修改");
+            }
         }
         promotional.setPupdatedate(LocalDateTime.now());
         TownPromotional existingPromotional = this.getById(promotional.getPid());

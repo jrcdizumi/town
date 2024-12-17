@@ -106,7 +106,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result deleteSupport(String id, Long userId) {
+    public Result deleteSupport(Integer id, Long userId) {
 
         TownSupport support = this.getById(id);
         if(userId == null) {
@@ -140,7 +140,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result getDetail(String id) {
+    public Result getDetail(Integer id) {
         TownSupport support = this.getById(id);
         if(support == null) {
             return Result.build(null, 400, "Support not found");
@@ -152,7 +152,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result getSupportsByPromotionalId(String pid, String token) {
+    public Result getSupportsByPromotionalId(Integer pid, String token) {
         Long userId = jwtHelper.getUserId(token);
         List<TownSupport> supports;
         if (userId == null) {
@@ -168,6 +168,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
             supports = this.lambdaQuery()
                 .eq(TownSupport::getPid, pid)
                 .ne(TownSupport::getSupportState, 3)
+                .ne(TownSupport::getSupportState, 2)
                 .list();
             return Result.ok(supports);
         }
@@ -180,7 +181,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public boolean hasSupports(String pid) {
+    public boolean hasSupports(Integer pid) {
         Long count = this.lambdaQuery()
                 .eq(TownSupport::getPid, pid)
                 .ne(TownSupport::getSupportState, 3)
@@ -189,7 +190,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result handleSupport(String supportId, Integer action, Long userId) {
+    public Result handleSupport(Integer supportId, Integer action, Long userId) {
         if (action != 1 && action != 2) {
             return Result.build(null, 400, "Invalid action type");
         }
@@ -202,7 +203,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
             return Result.build(null, 400, "This support has been deleted");
         }
         // 获取宣传信息
-        Result promotionalResult = publicizeService.getDetail(String.valueOf(support.getPid()));
+        Result promotionalResult = publicizeService.getDetail(support.getPid());
         if (promotionalResult.getCode() != 200) {
             return Result.build(null, 400, "Promotional not found");
         }
@@ -241,7 +242,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result checkPromotionUserMatch(String supportId, String token) {
+    public Result checkPromotionUserMatch(Integer supportId, String token) {
         Long userId = LoginProtectInterceptor.getUserId();
         if (userId == null) {
             return Result.build(null, 400, "请先登录");
@@ -252,7 +253,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
             return Result.build(null, 400, "助力信息不存在");
         }
 
-        Result promotionalResult = publicizeService.getDetail(String.valueOf(support.getPid()));
+        Result promotionalResult = publicizeService.getDetail(support.getPid());
         if (promotionalResult.getCode() != 200) {
             return Result.build(null, 400, "宣传信息不存在");
         }
@@ -263,5 +264,14 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
         }
 
         return Result.ok("用户匹配成功");
+    }
+
+    @Override
+    public Result getSupportCnt(Integer pid) {
+        Long count = this.lambdaQuery()
+                .eq(TownSupport::getPid, pid)
+                .ne(TownSupport::getSupportState, 3) // 排除已取消的记录
+                .count();
+        return Result.ok(count);
     }
 }
