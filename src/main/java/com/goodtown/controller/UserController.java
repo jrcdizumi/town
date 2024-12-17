@@ -65,4 +65,9 @@ public class UserController {
     public Result checkSameUser(@RequestParam Long userId, @RequestHeader(value = "token", required = false) String token){
         return userService.checkSameUser(userId,token);
     }
+
+    @GetMapping("getUserName")
+    public Result getUserName(@RequestParam Long userId){
+        return userService.getUserName(userId);
+    }
 }

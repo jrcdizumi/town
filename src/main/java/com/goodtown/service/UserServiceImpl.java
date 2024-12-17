@@ -260,5 +260,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return Result.ok(null);
     }
 
+    @Override
+    public Result getUserName(Long userId){
+        if (userId == null) {
+            return Result.build(null, 400, "USERNAME_ERROR");
+        }
+        // 根据用户id查询用户信息
+        User user1 = userMapper.selectById(userId);
+        if (user1 == null) {
+            return Result.build(null, 400, "USERNAME_ERROR");
+        }
+        System.out.println(user1.getUname());
+        // 返回用户名
+        return Result.ok(user1.getUname());        
+    }
 
 }

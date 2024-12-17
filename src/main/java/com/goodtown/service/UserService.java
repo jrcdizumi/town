@@ -21,4 +21,6 @@ public interface UserService {
     Result checkLogin(String token);
 
     Result checkSameUser(Long userId, String token);
+
+    Result getUserName(Long userId);
 }
