@@ -21,8 +21,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .addPathPatterns("/publicize/delete")
         .addPathPatterns("/publicize/update");
         registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/support/submit")
-        .addPathPatterns("/support/update").addPathPatterns("/support/delete")
+        .addPathPatterns("/support/update")
+        .addPathPatterns("/support/delete/{id}")
         .addPathPatterns("/support/handle")
-        .addPathPatterns("/support/handle");
+        .addPathPatterns("/support/mylist")
+        .addPathPatterns("/support/checkPromotionUserMatch");
     }
 }

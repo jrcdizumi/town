@@ -47,9 +47,9 @@ public class SupportController {
 
     @DeleteMapping("/delete/{id}")
     public Result deleteSupport(@PathVariable String id, 
-                              @RequestParam Long userId,
                               @RequestHeader(value = "token", required = false) String token) {
-        return supportService.deleteSupport(id, userId, token);
+        Long userId = LoginProtectInterceptor.getUserId();
+        return supportService.deleteSupport(id,userId);
     }
 
     @GetMapping("/detail/{id}")
@@ -58,8 +58,9 @@ public class SupportController {
     }
 
     @GetMapping("/list/{pid}")
-    public Result getSupportsList(@PathVariable String pid) {
-        return supportService.getSupportsByPromotionalId(pid);
+    public Result getSupportsList(@PathVariable String pid,
+                                @RequestHeader(value = "token", required = false) String token) {
+        return supportService.getSupportsByPromotionalId(pid, token);
     }
     @PostMapping("/handle")
     public Result handleSupport(@RequestParam String supportId, 
@@ -69,12 +70,18 @@ public class SupportController {
         if (userId == null) {
             return Result.build(null, 400, "请先登录");
         }
-        return supportService.handleSupport(supportId, action, userId, token);
+        return supportService.handleSupport(supportId, action, userId);
     }
 
-    @GetMapping("/mylist/{uid}")
+    @GetMapping("/mylist")
     public Result getMySupportsList(@RequestHeader("token") String token) {
         Long uid = LoginProtectInterceptor.getUserId();
         return supportService.getMySupportsList(uid);
+    }
+
+    @GetMapping("/checkPromotionUserMatch")
+    public Result checkPromotionUserMatch(@RequestParam String supportId,
+                                          @RequestHeader("token") String token) {
+        return supportService.checkPromotionUserMatch(supportId, token);
     }
 }

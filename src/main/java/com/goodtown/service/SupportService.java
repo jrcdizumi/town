@@ -12,13 +12,13 @@ public interface SupportService {
     Result updateSupport(Map<String, Object> data, String token);
     
     // 删除助力信息
-    Result deleteSupport(String id, Long userId, String token);
+    Result deleteSupport(String id, Long userId);
     
     // 获取助力详情
     Result getDetail(String id);
     
     // 获取某个宣传下的所有助力信息
-    Result getSupportsByPromotionalId(String pid);
+    Result getSupportsByPromotionalId(String pid, String token);
     
     // 检查宣传信息是否有未处理的助力
     boolean hasSupports(String pid);
@@ -31,7 +31,15 @@ public interface SupportService {
      * @param token 用户token
      * @return Result
      */
-    Result handleSupport(String supportId, Integer action, Long userId, String token);
+    Result handleSupport(String supportId, Integer action, Long userId);
 
     Result getMySupportsList(Long uid);
+
+    /**
+     * 检查助力对应的宣传信息的用户是否与当前登录用户相同
+     * @param supportId 助力信息ID
+     * @param token 用户token
+     * @return Result
+     */
+    Result checkPromotionUserMatch(String supportId, String token);
 }

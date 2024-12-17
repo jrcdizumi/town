@@ -6,6 +6,7 @@ import com.goodtown.interceptors.LoginProtectInterceptor;
 import com.goodtown.mapper.SupportMapper;
 import com.goodtown.pojo.TownPromotional;
 import com.goodtown.pojo.TownSupport;
+import com.goodtown.utils.JwtHelper;
 import com.goodtown.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     
     @Autowired
     private PublicizeService publicizeService;  // 添加这个注入
+
+    @Autowired
+    private JwtHelper jwtHelper;
 
     @Override
     public Result submitSupport(TownSupport data, String token) {
@@ -102,15 +106,20 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result deleteSupport(String id, Long userId, String token) {
-        Result result = userService.checkSameUser(userId, token);
-        if(result.getCode() != 200) {
-            return result;
-        }
+    public Result deleteSupport(String id, Long userId) {
 
         TownSupport support = this.getById(id);
+        if(userId == null) {
+            return Result.build(null, 400, "Please login first");
+        }
         if (support == null) {
             return Result.build(null, 400, "Support not found");
+        }
+        if(support.getSuserId() == null) {
+            return Result.build(null, 400, "Support not found");
+        }
+        if(!userId.equals(Long.valueOf(support.getSuserId()))) {
+            return Result.build(null, 400, "No permission to delete other user's support");
         }
         if(support.getSupportState() == 3) {
             return Result.build(null, 400, "This support has been deleted");
@@ -143,11 +152,30 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result getSupportsByPromotionalId(String pid) {
-        List<TownSupport> supports = this.lambdaQuery()
+    public Result getSupportsByPromotionalId(String pid, String token) {
+        Long userId = jwtHelper.getUserId(token);
+        List<TownSupport> supports;
+        if (userId == null) {
+            supports = this.lambdaQuery()
                 .eq(TownSupport::getPid, pid)
-                .ne(TownSupport::getSupportState, 3) // 排除已取消的记录
+                .eq(TownSupport::getSupportState, 1)
                 .list();
+            return Result.ok(supports);
+        }
+        //如果userid等于pid对应的userid，返回所有记录
+        TownPromotional promotional = (TownPromotional) publicizeService.getDetail(pid).getData();
+        if (userId.equals(promotional.getPuserid())) {
+            supports = this.lambdaQuery()
+                .eq(TownSupport::getPid, pid)
+                .ne(TownSupport::getSupportState, 3)
+                .list();
+            return Result.ok(supports);
+        }
+        //如果userid不等于pid对应的userid，返回已接受的记录
+        supports = this.lambdaQuery()
+            .eq(TownSupport::getPid, pid)
+            .eq(TownSupport::getSupportState, 1)
+            .list();
         return Result.ok(supports);
     }
 
@@ -161,7 +189,7 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
     }
 
     @Override
-    public Result handleSupport(String supportId, Integer action, Long userId, String token) {
+    public Result handleSupport(String supportId, Integer action, Long userId) {
         if (action != 1 && action != 2) {
             return Result.build(null, 400, "Invalid action type");
         }
@@ -210,5 +238,30 @@ public class SupportServiceImpl extends ServiceImpl<SupportMapper, TownSupport> 
                 .ne(TownSupport::getSupportState, 3) // 排除已取消的记录
                 .list();
         return Result.ok(supports);
+    }
+
+    @Override
+    public Result checkPromotionUserMatch(String supportId, String token) {
+        Long userId = LoginProtectInterceptor.getUserId();
+        if (userId == null) {
+            return Result.build(null, 400, "请先登录");
+        }
+
+        TownSupport support = this.getById(supportId);
+        if (support == null) {
+            return Result.build(null, 400, "助力信息不存在");
+        }
+
+        Result promotionalResult = publicizeService.getDetail(String.valueOf(support.getPid()));
+        if (promotionalResult.getCode() != 200) {
+            return Result.build(null, 400, "宣传信息不存在");
+        }
+
+        TownPromotional promotional = (TownPromotional) promotionalResult.getData();
+        if (!userId.equals(promotional.getPuserid())) {
+            return Result.build(null, 400, "无权限操作");
+        }
+
+        return Result.ok("用户匹配成功");
     }
 }
