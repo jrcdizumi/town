@@ -142,14 +142,12 @@ DROP TABLE IF EXISTS `town_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `town_info` (
-  `townID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '乡镇标识',
+  `townID` bigint NOT NULL AUTO_INCREMENT COMMENT '乡镇标识',
   `townName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '乡镇名称',
-  `cityID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '城市标识',
   `cityName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '城市名称',
-  `provinceID` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '省标识',
   `provinceName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL COMMENT '省名称',
   PRIMARY KEY (`townID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,6 +155,7 @@ CREATE TABLE `town_info` (
 --
 
 /*!40000 ALTER TABLE `town_info` DISABLE KEYS */;
+INSERT INTO `town_info` VALUES (0,'天河区','广州市','广东省'),(2,'白云区','广州市','广东省'),(3,'增城区','广州市','广东省'),(4,'从化区','广州市','广东省'),(5,'花都区','广州市','广东省'),(6,'余杭区','杭州市','浙江省'),(7,'萧山区','杭州市','浙江省'),(8,'临安区','杭州市','浙江省'),(9,'富阳区','杭州市','浙江省'),(10,'塘栖镇','杭州市','浙江省'),(11,'建邺区','南京市','江苏省'),(12,'秦淮区','南京市','江苏省'),(13,'玄武区','南京市','江苏省'),(14,'栖霞区','南京市','江苏省'),(15,'谷里镇','南京市','江苏省');
 /*!40000 ALTER TABLE `town_info` ENABLE KEYS */;
 
 --
@@ -177,12 +176,13 @@ CREATE TABLE `town_promotional` (
   `pbegindate` datetime NOT NULL COMMENT '开始宣传日期，默认提交日期',
   `pstate` int NOT NULL COMMENT '状态，0：已发布；-1：已取消',
   `pupdatedate` datetime DEFAULT NULL COMMENT '修改日期',
+  `videourl` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '视频链接',
   PRIMARY KEY (`pid`) USING BTREE,
   KEY `f1` (`puserid`) USING BTREE,
   KEY `f2` (`ptype_id`) USING BTREE,
   CONSTRAINT `town_promotional_ibfk_1` FOREIGN KEY (`puserid`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `town_promotional_ibfk_2` FOREIGN KEY (`ptype_id`) REFERENCES `promotional_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,6 +190,7 @@ CREATE TABLE `town_promotional` (
 --
 
 /*!40000 ALTER TABLE `town_promotional` DISABLE KEYS */;
+INSERT INTO `town_promotional` VALUES (1,'主题',5,0,0,'描述','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 15:51:40',-1,'2024-12-15 12:50:42',''),(2,'`',5,0,0,'1','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png','2024-12-08 17:18:09',-1,'2024-12-15 12:51:41',''),(3,'测试测试测试测试',3,0,13,'测试修改','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png','2024-12-08 17:24:40',0,'2024-12-15 15:44:33',''),(4,'2',2,0,0,'test2','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png','2024-12-08 17:24:52',-1,'2024-12-15 14:32:42',''),(5,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:07',-1,'2024-12-17 21:33:25',''),(6,'3',4,0,0,'test343544ffedgde','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:09',0,'2024-12-17 21:33:52',''),(7,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-08 17:26:11',''),(8,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-08 17:26:11',''),(9,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-08 17:26:11',''),(10,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-08 17:26:11','');
 /*!40000 ALTER TABLE `town_promotional` ENABLE KEYS */;
 
 --
@@ -204,15 +205,16 @@ CREATE TABLE `town_support` (
   `suser_id` int NOT NULL COMMENT '助力用户标识',
   `pid` int NOT NULL COMMENT '对应的好乡镇宣传标识',
   `stitle` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '助力标题',
-  `sdesc` tinyint NOT NULL COMMENT '助力描述',
+  `sdesc` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '助力描述',
   `support_date` datetime NOT NULL COMMENT '创建日期',
   `support_state` int NOT NULL COMMENT '状态，0：待接受；1：已接受；2：拒绝；3：取消',
   `update_date` datetime DEFAULT NULL COMMENT '修改日期',
   `sfile_list` varchar(400) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL COMMENT '上传的介绍图片等文件名称列表',
+  `videourl` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`sid`) USING BTREE,
   KEY `bid2` (`suser_id`) USING BTREE,
   CONSTRAINT `town_support_ibfk_1` FOREIGN KEY (`suser_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2046857219 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,6 +222,7 @@ CREATE TABLE `town_support` (
 --
 
 /*!40000 ALTER TABLE `town_support` DISABLE KEYS */;
+INSERT INTO `town_support` VALUES (524308481,0,3,'22','2224343','2024-12-17 01:16:45',1,'2024-12-17 17:41:23','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/96350db6-3dc7-4a24-9dbb-a26ec960a603.png',''),(885088258,0,3,'1','123','2024-12-17 01:08:04',3,'2024-12-17 17:13:04','',''),(1455460354,1438683138,3,'22发公告g','4reefef','2024-12-17 17:50:07',2,'2024-12-17 20:51:46','',''),(2046857218,0,3,'312323','2323323','2024-12-17 17:44:43',0,'2024-12-17 17:44:52','','');
 /*!40000 ALTER TABLE `town_support` ENABLE KEYS */;
 
 --
@@ -243,7 +246,7 @@ CREATE TABLE `user` (
   `desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '用户简介',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uname` (`uname`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=1438683139 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -251,7 +254,7 @@ CREATE TABLE `user` (
 --
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (0,'jrcd','IDCard','123456789012345678','jrcd','787ac6a6e095632819008fa9623c0e7a','13800138000','2024-12-03 18:14:43','2024-12-03 18:14:43','Normal','随机生成的用户');
+INSERT INTO `user` VALUES (-1556008958,'RandomUser','IDCard','123456789012345678','jrcd','787ac6a6e095632819008fa9623c0e7a','13800138000','2024-12-08 15:26:50','2024-12-08 15:26:50','Normal','随机生成的用户'),(0,'jrcd','IDCard','123456789012345678','jrcd','51995c170515203fbb28df2412ce5e23','13800138000','2024-12-03 18:14:43','2024-12-17 17:48:32','Normal','随机生成的用户'),(1438683138,'cd','身份证','3432543663436','cd','51995c170515203fbb28df2412ce5e23','15382858999','2024-12-17 17:49:34','2024-12-17 17:49:34',NULL,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 --
@@ -267,4 +270,4 @@ INSERT INTO `user` VALUES (0,'jrcd','IDCard','123456789012345678','jrcd','787ac6
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-06 20:50:06
+-- Dump completed on 2024-12-18 21:45:36
