@@ -36,7 +36,6 @@ public class PublicizeServiceImpl extends ServiceImpl<PublicizeMapper,TownPromot
             return Result.build(null,400,"请先登录");
         }
         data.setPuserid(id);
-        data.setTownID(0);
         boolean res=this.save(data);
         if(res) {
             return Result.ok("提交成功");

@@ -8,6 +8,7 @@ import com.goodtown.pojo.Admin;
 import com.goodtown.service.AdminService;
 import com.goodtown.utils.Result;
 
+
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin
@@ -23,7 +24,13 @@ public class AdminController {
         System.out.println("result = " + result);
         return result;
     }
+
+    @PostMapping("statistics")
     public Result getStatistics(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String region) {
+        Long userId = LoginProtectInterceptor.getUserId();
+        if (userId == null || userId != 1) {
+            return Result.build(null, 400, "请先登录");
+        }
         return adminService.getStatistics(startDate, endDate, region);
     }
 }
