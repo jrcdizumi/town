@@ -23,4 +23,7 @@ public class AdminController {
         System.out.println("result = " + result);
         return result;
     }
+    public Result getStatistics(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String region) {
+        return adminService.getStatistics(startDate, endDate, region);
+    }
 }
