@@ -45,6 +45,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public Result getStatistics(String startDate, String endDate, String region) {
+        // Update the statistics before fetching the data
+        countTownPromotionalAndSupport();
+
         QueryWrapper<Report> queryWrapper = new QueryWrapper<>();
         queryWrapper.between("monthID", startDate, endDate);
         queryWrapper.like("townID", region);
