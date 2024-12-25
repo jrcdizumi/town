@@ -26,11 +26,11 @@ public class AdminController {
     }
 
     @GetMapping("statistics")
-    public Result getStatistics(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String townID, @RequestHeader String token) {
-        // Long userId = LoginProtectInterceptor.getUserId();
-        // if (userId == null || userId != 1) {
-        //     return Result.build(null, 400, "请先登录");
-        // }
+    public Result getStatistics(@RequestParam String startDate, @RequestParam String endDate, @RequestParam String townID, @RequestHeader(value = "token", required = false) String token) {
+        Long userId = LoginProtectInterceptor.getUserId();
+        if (userId == null || userId != 1) {
+            return Result.build(null, 400, "请先登录");
+        }
         return adminService.getStatistics(startDate, endDate, townID);
     }
 }

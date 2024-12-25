@@ -70,7 +70,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Admin::getUsername, admin.getUsername());
             loginAdmin = adminMapper.selectOne(queryWrapper);
-
+            System.out.println("loginAdmin = " + loginAdmin);
             if (loginAdmin == null) {
                 return Result.build(null, ResultCodeEnum.USERNAME_ERROR);
             }
@@ -80,7 +80,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
 
         if (!StringUtils.isEmpty(admin.getPassword())
-                && loginAdmin.getPassword().equals(MD5Util.encrypt(admin.getPassword()))) {
+                && loginAdmin.getPassword().equals(admin.getPassword())) {
             String token = jwtHelper.createToken((long)1);
 
             Map<String, Object> data = new HashMap<>();
