@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -93,16 +94,25 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public Result countTownPromotionalAndSupport(String townID) {
-        // 查询所有的 TownPromotional，条件是 pstate 为 0
+        // 查询所有的 TownPromotional，条件是 pstate 为 0 且 townID 一致
         LambdaQueryWrapper<TownPromotional> promotionalQueryWrapper = new LambdaQueryWrapper<>();
         promotionalQueryWrapper.eq(TownPromotional::getPstate, 0);
+        promotionalQueryWrapper.eq(TownPromotional::getTownID, townID);
         List<TownPromotional> promotionalList = townPromotionalMapper.selectList(promotionalQueryWrapper);
 
-        // 查询所有的 TownSupport，条件是 supportState 为 1
-        LambdaQueryWrapper<TownSupport> supportQueryWrapper = new LambdaQueryWrapper<>();
-        supportQueryWrapper.eq(TownSupport::getSupportState, 1);
-        List<TownSupport> supportList = townSupportMapper.selectList(supportQueryWrapper);
+        // 首先查询指定townID的所有TownPromotional的pid
+        LambdaQueryWrapper<TownPromotional> promotionalWrapper = new LambdaQueryWrapper<>();
+        promotionalWrapper.eq(TownPromotional::getTownID, townID);
+        List<TownPromotional> promotionals = townPromotionalMapper.selectList(promotionalWrapper);
+        List<Integer> pids = promotionals.stream()
+        .map(TownPromotional::getPid)
+        .collect(Collectors.toList());
 
+        // 然后查询TownSupport，条件是supportState为1且pid在上面查询的列表中
+        LambdaQueryWrapper<TownSupport> supportQueryWrapper = new LambdaQueryWrapper<>();
+        supportQueryWrapper.eq(TownSupport::getSupportState, 1)
+        .in(TownSupport::getPid, pids);
+        List<TownSupport> supportList = townSupportMapper.selectList(supportQueryWrapper);
         // 按月份进行计数
         Map<String, Report> reportMap = new HashMap<>();
         for (TownPromotional promotional : promotionalList) {
