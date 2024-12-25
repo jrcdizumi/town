@@ -48,7 +48,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
         if (!StringUtils.isEmpty(admin.getPassword())
                 && loginAdmin.getPassword().equals(MD5Util.encrypt(admin.getPassword()))) {
-            String token = jwtHelper.createToken(Long.valueOf(loginAdmin.getUsername()));
+            String token = jwtHelper.createToken((long)1);
 
             Map<String, Object> data = new HashMap<>();
             data.put("token", token);
