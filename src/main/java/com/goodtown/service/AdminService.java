@@ -33,6 +33,6 @@ import com.goodtown.utils.ResultCodeEnum;
 public interface AdminService {
 
     Result adminlogin(Admin admin);
-    Result getStatistics(String startDate, String endDate, String region);
-    Result countTownPromotionalAndSupport();
+    Result getStatistics(String startDate, String endDate, String townID);
+    Result countTownPromotionalAndSupport(String townID);
 }

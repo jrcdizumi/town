@@ -44,15 +44,20 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private SupportMapper townSupportMapper;
 
     @Override
-    public Result getStatistics(String startDate, String endDate, String region) {
+    public Result getStatistics(String startDate, String endDate, String townID) {
         // Update the statistics before fetching the data
-        countTownPromotionalAndSupport();
-
+        countTownPromotionalAndSupport(townID);
+        startDate = startDate.substring(0, 7);
+        endDate = endDate.substring(0, 7);        
+        System.out.println("startDate = " + startDate);
+        System.out.println("endDate = " + endDate);
         QueryWrapper<Report> queryWrapper = new QueryWrapper<>();
-        queryWrapper.between("monthID", startDate, endDate);
-        queryWrapper.like("townID", region);
 
+        queryWrapper.between("monthID", startDate, endDate);
+        // queryWrapper.like("townID", townID);
+        
         List<Report> reports = reportMapper.selectList(queryWrapper);
+        System.out.println("reports = " + reports);
         return Result.ok(reports);
     }
 
@@ -87,7 +92,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
-    public Result countTownPromotionalAndSupport() {
+    public Result countTownPromotionalAndSupport(String townID) {
         // 查询所有的 TownPromotional，条件是 pstate 为 0
         LambdaQueryWrapper<TownPromotional> promotionalQueryWrapper = new LambdaQueryWrapper<>();
         promotionalQueryWrapper.eq(TownPromotional::getPstate, 0);
@@ -120,7 +125,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
         // 将结果存到 Report 里面
         for (Report report : reportMap.values()) {
-            reportMapper.insert(report);
+            reportMapper.insertOrUpdate(report);
         }
 
         return Result.ok(null);

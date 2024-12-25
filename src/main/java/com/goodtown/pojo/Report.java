@@ -2,6 +2,8 @@ package com.goodtown.pojo;
 
 import lombok.Data;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
@@ -10,10 +12,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
  */
 @Data
 public class Report implements Serializable {
-    @TableId
+    @TableId(value = "monthID")
     private String monthID;    // 统计月份
 
     private Integer ptypeId;   // 好乡镇宣传类型标识
+    @TableField(value = "townID")
     private String townID;     // 好乡镇标识
     private Integer puserNum;  // 月累计宣传用户数
     private Integer suserNum;  // 月累计助力用户数

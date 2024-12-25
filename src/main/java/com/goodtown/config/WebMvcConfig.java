@@ -26,6 +26,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .addPathPatterns("/support/handle")
         .addPathPatterns("/support/mylist")
         .addPathPatterns("/support/checkPromotionUserMatch");
-        registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/admin/statistics");
+        // registry.addInterceptor(loginProtectInterceptor).addPathPatterns("/admin/statistics");
     }
 }
