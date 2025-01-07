@@ -104,7 +104,7 @@ CREATE TABLE `report` (
 --
 
 /*!40000 ALTER TABLE `report` DISABLE KEYS */;
-INSERT INTO `report` VALUES ('2024-10',2,'0',1,0),('2024-12',2,'0',7,1);
+INSERT INTO `report` VALUES ('2024-10',2,'0',1,0),('2024-11',3,'52',3,0),('2024-12',3,'52',3,1);
 /*!40000 ALTER TABLE `report` ENABLE KEYS */;
 
 --
@@ -155,7 +155,7 @@ CREATE TABLE `town_promotional` (
   KEY `f2` (`ptype_id`) USING BTREE,
   CONSTRAINT `town_promotional_ibfk_1` FOREIGN KEY (`puserid`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `town_promotional_ibfk_2` FOREIGN KEY (`ptype_id`) REFERENCES `promotional_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +163,7 @@ CREATE TABLE `town_promotional` (
 --
 
 /*!40000 ALTER TABLE `town_promotional` DISABLE KEYS */;
-INSERT INTO `town_promotional` VALUES (16,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2025-01-07 13:43:26',0,'2025-01-07 13:44:04',''),(17,'双江古镇',3,0,57,'双江古镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/406a3b30-0722-4d6f-876f-b74f953634b5.jpg','2025-01-07 13:48:10',0,'2025-01-07 13:48:10',''),(18,'美食',5,0,16,'火锅、串串','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/f4b4573e-37b7-4ba7-830e-370bfb62f393.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/5597eff9-09ea-4fd5-99dd-66cc56ca0a29.jpg','2025-01-07 13:52:01',0,'2025-01-07 13:52:01',''),(19,'山水',2,0,43,'恩施峡谷','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/7affd061-a8ab-430d-bb43-4aab2f57d3f7.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/aa590693-c1f4-4aa5-8f67-169600408e7e.jpg','2025-01-07 13:59:34',0,'2025-01-07 13:59:34','');
+INSERT INTO `town_promotional` VALUES (17,'双江古镇',3,0,57,'双江古镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/406a3b30-0722-4d6f-876f-b74f953634b5.jpg','2025-01-07 13:48:10',0,'2025-01-07 13:48:10',''),(18,'美食',5,0,16,'火锅、串串','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/f4b4573e-37b7-4ba7-830e-370bfb62f393.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/5597eff9-09ea-4fd5-99dd-66cc56ca0a29.jpg','2024-12-07 13:52:01',0,'2024-12-07 13:52:01',''),(19,'山水',2,0,43,'恩施峡谷','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/7affd061-a8ab-430d-bb43-4aab2f57d3f7.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/aa590693-c1f4-4aa5-8f67-169600408e7e.jpg','2024-11-07 13:59:34',0,'2024-11-07 13:59:34',''),(20,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2024-11-07 13:59:34',0,'2024-11-07 13:59:34',''),(21,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2024-12-07 13:52:01',0,'2024-12-07 13:52:01',''),(22,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2024-12-07 13:52:01',0,'2024-12-07 13:52:01',''),(23,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2024-11-07 13:59:34',0,'2024-11-07 13:59:34',''),(24,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2024-12-07 13:52:01',0,'2024-12-07 13:52:01',''),(25,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2024-11-07 13:59:34',0,'2024-11-07 13:59:34','');
 /*!40000 ALTER TABLE `town_promotional` ENABLE KEYS */;
 
 --
@@ -195,7 +195,7 @@ CREATE TABLE `town_support` (
 --
 
 /*!40000 ALTER TABLE `town_support` DISABLE KEYS */;
-INSERT INTO `town_support` VALUES (1602322433,0,16,'夜景','龙门镇夜景','2025-01-07 13:45:06',1,'2025-01-07 13:45:27','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/9b601a77-3aaa-446e-a6b0-fe9d2f2b808d.jpg','');
+INSERT INTO `town_support` VALUES (180482050,0,16,'白天景观','1','2025-01-07 14:40:32',0,'2025-01-07 14:40:32','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/864de111-bd2c-447d-91f6-df22d2115eb1.jpg',''),(1602322433,0,16,'夜景','龙门镇夜景','2025-01-07 13:45:06',1,'2025-01-07 13:45:27','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/9b601a77-3aaa-446e-a6b0-fe9d2f2b808d.jpg','');
 /*!40000 ALTER TABLE `town_support` ENABLE KEYS */;
 
 --
@@ -243,4 +243,4 @@ INSERT INTO `user` VALUES (-1556008958,'RandomUser','IDCard','123456789012345678
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-07 14:03:57
+-- Dump completed on 2025-01-07 22:14:06
