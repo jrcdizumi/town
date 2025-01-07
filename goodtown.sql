@@ -16,34 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `accept_info`
---
-
-DROP TABLE IF EXISTS `accept_info`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `accept_info` (
-  `id` int NOT NULL COMMENT '助力成功记录标识',
-  `pid` int NOT NULL COMMENT '好乡镇宣传标识',
-  `sid` int NOT NULL COMMENT '好乡镇助力标识',
-  `createdate` datetime NOT NULL COMMENT '达成日期',
-  `desc` int NOT NULL COMMENT '备注描述',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `pid` (`pid`) USING BTREE,
-  KEY `rid` (`sid`) USING BTREE,
-  CONSTRAINT `accept_info_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `town_promotional` (`pid`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `accept_info_ibfk_2` FOREIGN KEY (`sid`) REFERENCES `town_support` (`sid`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `accept_info`
---
-
-/*!40000 ALTER TABLE `accept_info` DISABLE KEYS */;
-/*!40000 ALTER TABLE `accept_info` ENABLE KEYS */;
-
---
 -- Table structure for table `admin`
 --
 
@@ -183,7 +155,7 @@ CREATE TABLE `town_promotional` (
   KEY `f2` (`ptype_id`) USING BTREE,
   CONSTRAINT `town_promotional_ibfk_1` FOREIGN KEY (`puserid`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `town_promotional_ibfk_2` FOREIGN KEY (`ptype_id`) REFERENCES `promotional_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +163,7 @@ CREATE TABLE `town_promotional` (
 --
 
 /*!40000 ALTER TABLE `town_promotional` DISABLE KEYS */;
-INSERT INTO `town_promotional` VALUES (1,'主题',5,0,0,'描述','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 15:51:40',-1,'2024-12-15 12:50:42',''),(2,'`',5,0,0,'1','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png','2024-12-08 17:18:09',-1,'2024-12-15 12:51:41',''),(3,'测试测试测试测试',3,0,13,'测试修改','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png','2024-12-08 17:24:40',0,'2024-12-15 15:44:33',''),(4,'2',2,0,0,'test2','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/50cc41b6-c76f-4e6c-b77b-be2f2f390dce.png','2024-12-08 17:24:52',-1,'2024-12-15 14:32:42',''),(5,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:07',-1,'2024-12-17 21:33:25',''),(6,'3',4,0,0,'test343544ffedgde','','2024-12-08 17:26:09',0,'2024-12-18 22:16:05','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/9f589dcd-5b43-42af-b44e-22d200cd7f12.mp4'),(7,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-08 17:26:11',''),(8,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-08 17:26:11',''),(9,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-18 22:01:13','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/c93005af-05e1-4d10-b798-16273b5c81c3.mp4'),(10,'3',4,0,0,'test3','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/b989aba8-5ce5-4f26-82d8-3822200742ab.png','2024-12-08 17:26:11',0,'2024-12-08 17:26:11',''),(11,'213123',2,0,0,'24141412321','','2024-12-25 18:17:21',0,'2024-12-25 18:17:21',''),(12,'312342',2,0,0,'421412','','2024-12-25 18:18:40',0,'2024-12-25 18:18:40',''),(13,'131243',2,0,51,'2412421','','2024-12-25 18:19:24',0,'2024-12-25 18:20:00',''),(14,'414124',2,0,0,'21412412421','','2024-10-25 18:19:24',0,'2024-10-25 18:19:24',NULL),(15,'123213',5,1438683138,40,'42242','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/5e9ae694-a446-4697-a688-2d724471688f.png','2024-12-25 21:20:16',0,'2024-12-25 21:20:16','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/c7c6401c-fdd7-47e6-b2a1-e7334db48b9b.mp4');
+INSERT INTO `town_promotional` VALUES (16,'武侠文化旅游小镇--龙门镇',3,0,52,'武侠文化旅游小镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/78b789cc-d345-4576-a2c4-703a0b60f14b.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/a41c194e-07c8-4432-8df9-df3ebdfa59c7.jpg','2025-01-07 13:43:26',0,'2025-01-07 13:44:04',''),(17,'双江古镇',3,0,57,'双江古镇','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/406a3b30-0722-4d6f-876f-b74f953634b5.jpg','2025-01-07 13:48:10',0,'2025-01-07 13:48:10',''),(18,'美食',5,0,16,'火锅、串串','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/f4b4573e-37b7-4ba7-830e-370bfb62f393.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/5597eff9-09ea-4fd5-99dd-66cc56ca0a29.jpg','2025-01-07 13:52:01',0,'2025-01-07 13:52:01',''),(19,'山水',2,0,43,'恩施峡谷','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/7affd061-a8ab-430d-bb43-4aab2f57d3f7.jpg,https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/aa590693-c1f4-4aa5-8f67-169600408e7e.jpg','2025-01-07 13:59:34',0,'2025-01-07 13:59:34','');
 /*!40000 ALTER TABLE `town_promotional` ENABLE KEYS */;
 
 --
@@ -223,7 +195,7 @@ CREATE TABLE `town_support` (
 --
 
 /*!40000 ALTER TABLE `town_support` DISABLE KEYS */;
-INSERT INTO `town_support` VALUES (524308481,0,3,'22','2224343','2024-12-17 01:16:45',1,'2024-12-17 17:41:23','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/96350db6-3dc7-4a24-9dbb-a26ec960a603.png',''),(885088258,0,3,'1','123','2024-12-17 01:08:04',3,'2024-12-17 17:13:04','',''),(1455460354,1438683138,3,'22发公告g','4reefef','2024-12-17 17:50:07',2,'2024-12-17 20:51:46','',''),(2046857218,0,3,'312323','2323323','2024-12-17 17:44:43',0,'2024-12-18 22:16:18','','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/630a586b-ddba-4221-8463-1005135b7174.mp4');
+INSERT INTO `town_support` VALUES (1602322433,0,16,'夜景','龙门镇夜景','2025-01-07 13:45:06',1,'2025-01-07 13:45:27','https://sky-take-out-1317682162.cos.ap-beijing.myqcloud.com/goodtown/9b601a77-3aaa-446e-a6b0-fe9d2f2b808d.jpg','');
 /*!40000 ALTER TABLE `town_support` ENABLE KEYS */;
 
 --
@@ -247,7 +219,7 @@ CREATE TABLE `user` (
   `desc` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL COMMENT '用户简介',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uname` (`uname`)
-) ENGINE=InnoDB AUTO_INCREMENT=1438683139 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2025938947 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +227,7 @@ CREATE TABLE `user` (
 --
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (-1556008958,'RandomUser','IDCard','123456789012345678','jrcd','787ac6a6e095632819008fa9623c0e7a','13800138000','2024-12-08 15:26:50','2024-12-08 15:26:50','Normal','随机生成的用户'),(0,'jrcd','IDCard','123456789012345678','jrcd','51995c170515203fbb28df2412ce5e23','13800138000','2024-12-03 18:14:43','2024-12-17 17:48:32','Normal','随机生成的用户'),(1,'admin','IDCard','31224434343','admin','23243refegeg4141','142313','2024-12-17 17:49:34','2024-12-17 17:49:34',NULL,'admin'),(1438683138,'cd','身份证','3432543663436','cd','51995c170515203fbb28df2412ce5e23','15382858999','2024-12-17 17:49:34','2024-12-17 17:49:34',NULL,'');
+INSERT INTO `user` VALUES (-1556008958,'RandomUser','IDCard','123456789012345678','jrcd','787ac6a6e095632819008fa9623c0e7a','13800138000','2024-12-08 15:26:50','2024-12-08 15:26:50','Normal','随机生成的用户'),(-574529534,'1234','身份证','6436546423532532','1234','51995c170515203fbb28df2412ce5e23','15382858999','2024-12-26 12:19:55','2024-12-26 12:19:55',NULL,''),(0,'jrcd','IDCard','123456789012345678','jrcd','51995c170515203fbb28df2412ce5e23','13800138000','2024-12-03 18:14:43','2024-12-17 17:48:32','Normal','随机生成的用户'),(1,'admin','IDCard','31224434343','admin','23243refegeg4141','142313','2024-12-17 17:49:34','2024-12-17 17:49:34',NULL,'admin'),(113336322,'412341353','身份证','434124','214144214','4e4541ca85009c16e381163a5736e558','15382858999','2024-12-26 12:36:01','2024-12-26 12:36:01',NULL,''),(1438683138,'cd','身份证','3432543663436','cd','51995c170515203fbb28df2412ce5e23','15382858999','2024-12-17 17:49:34','2024-12-17 17:49:34',NULL,''),(2025938946,'wdff','身份证','412543254646436','cd','51995c170515203fbb28df2412ce5e23','15382858999','2024-12-26 12:18:28','2024-12-26 12:18:28',NULL,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 --
@@ -271,4 +243,4 @@ INSERT INTO `user` VALUES (-1556008958,'RandomUser','IDCard','123456789012345678
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-26  0:49:55
+-- Dump completed on 2025-01-07 14:03:57
