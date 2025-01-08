@@ -3,6 +3,7 @@
 -- Host: 127.0.0.1    Database: goodtown
 -- ------------------------------------------------------
 -- Server version	8.0.39-0ubuntu0.22.04.1
+CREATE DATABASE goodtown;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
